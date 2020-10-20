@@ -1,0 +1,38 @@
+.hg-container {
+    display: grid;
+
+    grid-template-areas:
+    "header header header"
+    "nav content side"
+    "footer footer footer";
+
+    grid-template-columns: 266px 1fr 0px;
+    grid-template-rows: auto 1fr auto;
+    grid-gap: 0px;
+    grid-column-gap: 20px;
+
+    height: 100vh;
+}
+
+header {
+    grid-area: header;
+  }
+  
+nav {
+    grid-area: nav;
+    margin-left: 0rem;
+}
+
+main {
+    grid-area: content;
+    margin-top: 20px;
+}
+
+aside {
+    grid-area: side;
+    margin-right: 0rem;
+}
+
+footer {
+    grid-area: footer;
+}
