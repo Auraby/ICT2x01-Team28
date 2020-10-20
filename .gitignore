@@ -118,3 +118,7 @@ dist
 # backend/mongodb
 backend/mongodb_test.py
 backend/mongodb.py
+
+# ignore pycache
+backend/__pycache__
+backend/__pycache__/*
