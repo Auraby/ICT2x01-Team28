@@ -1,8 +1,17 @@
+import mongodb
+import typing
+import user
+import module
+import component
 
-class moduleReader:
+def getModules() -> typing.List[module.Module]:
+    pass
 
-        """
-        Retrieve all modules from database
-        """
-        def getModules(self):
-            pass
+def getStudents(moduleCode: str) -> typing.List[user.Student]:
+    pass
+
+def getProfessors(moduleCode: str) -> typing.List[user.Professor]:
+    pass
+
+def getAssessments(moduleCode: str) -> typing.List[component.Assessment]:
+    pass
