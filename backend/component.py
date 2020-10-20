@@ -35,16 +35,23 @@ class Component(ABC):
         pass
 
     def setName(self, name: str) -> None:
-        self.name = name
+        pass
 
     def setMarks(self, marks: int) -> None:
-        self.marks = marks
+        pass
 
     def setMaxMarks(self, maxMarks: int) -> None:
-        self.maxMarks = maxMarks
+        pass
 
     def setEndDate(self, endDate: datetime.datetime) -> None:
-        self.endDate = endDate
+        pass
 
     def setWeightage(self, weightage: float) -> None:
-        self.weightage = weightage
+        pass
+
+
+class Assessment(Component):
+    pass
+
+class Subcomponent(Component):
+    pass

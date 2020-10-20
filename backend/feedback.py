@@ -19,10 +19,16 @@ class Feedback(ABC):
         pass
 
     def setComments(self, comments: str) -> None:
-        self.comments = comments
+        pass
 
     def setMarks(self, marks: int) -> None:
-        self.marks = marks
+        pass
 
     def setType(self, type: str) -> None:
-        self.type = type
+        pass
+
+class Summative(Feedback):
+    pass
+
+class Formative(Feedback):
+    pass

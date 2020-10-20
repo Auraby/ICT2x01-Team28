@@ -26,3 +26,15 @@ class User(ABC):
 
     def getModules(self) -> typing.List:
         pass
+
+class Student(User):
+    """
+        Help me implement this according to the class diagram. Inherit from the User abstract class
+    """
+    pass
+
+class Professor(User):
+    """
+        Help me implement this according to the class diagram. Inherit from the User abstract class
+    """
+    pass
