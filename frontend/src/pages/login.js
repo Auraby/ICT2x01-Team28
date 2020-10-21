@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { InputWithLabel } from '../components/input'
+import { InputWithLabel } from '../components/input';
 
 export default class Login extends Component {
     constructor(props) {

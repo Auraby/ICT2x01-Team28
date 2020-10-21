@@ -20,7 +20,7 @@ export class InputWithLabel extends Component {
         return (
             <>
                 <label htmlFor={this.props.inputId}>{ this.props.label }</label>
-                <input id={this.props.inputId} className={this.props.inputClass} />
+                <input id={this.props.inputId} className={this.props.inputClass} type={this.props.type}/>
             </>
         )
     }
