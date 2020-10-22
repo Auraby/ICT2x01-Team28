@@ -1,0 +1,25 @@
+#profile
+{
+    background-color: aquamarine;
+}
+
+#progressLadder
+{
+    background-color: brown;
+}
+
+#innerblock
+{
+    background-color: darkcyan;
+}
+
+#achivementPanel
+{
+    background-color: chocolate;
+}
+
+.positionImage
+{
+    padding-left: 5%;
+    padding-right: 5%;
+}
