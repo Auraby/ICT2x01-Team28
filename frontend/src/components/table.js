@@ -14,11 +14,11 @@ class ObjectData extends Component {
             <tr className="text-center">
                 {Object.keys(object).map(function(key, _) {
                     return (
-                        <td>{object[key]}</td>
+                        <td key={"key_" + key}>{object[key]}</td>
                     )
                 })}
-                <td><a href={`/edit/${this.props.type}/${object.id}`} className="text-primary"><i className="fas fa-edit"></i></a></td>
-                <td><a href={`/delete/${this.props.type}/${object.id}`} className="text-danger"><i className="fas fa-trash"></i></a></td>
+                <td key={"key_edit_" + this.props.object.id}><a href={`/edit/${this.props.type}/${object.id}`} className="text-primary"><i className="fas fa-edit"></i></a></td>
+                <td key={"key_delete_" + this.props.object.id}><a href={`/delete/${this.props.type}/${object.id}`} className="text-danger"><i className="fas fa-trash"></i></a></td>
             </tr>
         )
     }
@@ -26,7 +26,6 @@ class ObjectData extends Component {
 
 export class Table extends Component {
     static propTypes = {
-        headers: PropTypes.array.isRequired,
         data: PropTypes.array,
         className: PropTypes.string,
     }

@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-// import axios from 'axios';
 import { MyContext } from '../context/myContext';
 import { Dropdown } from '../components/dropdown';
 import { Panel } from '../components/panel';
@@ -8,7 +7,7 @@ import { Panel } from '../components/panel';
 /***********************************************************
  * Student Home Page can only view feedback 
 ***********************************************************/
-export class StudentHome extends Component {
+export default class StudentHome extends Component {
     static contextType = MyContext;
 
     constructor(props) {
@@ -101,9 +100,9 @@ export class StudentHome extends Component {
             <Panel>
                 <form onSubmit={this.handleSubmit}>
                 <label htmlFor="DrpModule" className="display-1 text-white">View Feedback</label>
-                <Dropdown name="selectedModule" label="Select Module" options={this.state.modules} onChange={this.moduleChange}/>
-                <Dropdown name="selectedAssessment" label="Select Assessment" options={this.state.assessments} onChange={this.assessmentChange}/>
-                <Dropdown name="selectedSubcomponent" label="Select Subcomponent" options={this.state.subcomponents} onChange={this.subcomponentChange}/>
+                <Dropdown value={this.state.selectedModule} name="selectedModule" label="Select Module" options={this.state.modules} onChange={this.moduleChange}/>
+                <Dropdown value={this.state.selectedAssessment} name="selectedAssessment" label="Select Assessment" options={this.state.assessments} onChange={this.assessmentChange}/>
+                <Dropdown value={this.state.selectedSubcomponent} name="selectedSubcomponent" label="Select Subcomponent" options={this.state.subcomponents} onChange={this.subcomponentChange}/>
                 <button type="submit" className="btn-primary btn">View</button>
                 </form>
             </Panel>
@@ -112,27 +111,3 @@ export class StudentHome extends Component {
     }
 }
 
-export class ProfessorHome extends Component {
-    static contextType = MyContext;
-
-    constructor(props) {
-        super(props);
-        this.state = {}
-    }
-
-    componentDidMount() {
-        ;
-    }
-
-    render() { 
-        return (
-            <>
-            <div className="StudentHome-container">
-                <form onSubmit={this.handleSubmit}>
-                <label htmlFor="DrpModule" className="login-title">Professor Home</label>
-                </form>
-            </div>
-            </>
-        );
-    }
-}

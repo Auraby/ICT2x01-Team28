@@ -64,13 +64,13 @@ class Navbar extends Component {
         const assessmentDropdown = [
             {title: "Add Assessment", href: "/add/assessment"},
             {title: "View Assessment", href: "/view/assessment"},
-            {title: "Edit Assessment", href:"/edit/assessment"}
+            {title: "Edit Assessment", href:"/select/assessment"}
         ];
 
         const subcomponentDropdown = [
             {title: "Add Subcomponent", href: "/add/subcomponent"},
             {title: "View Subcomponent", href: "/view/subcomponent"},
-            {title: "Edit Subcomponent", href:"/edit/subcomponent"}
+            {title: "Edit Subcomponent", href:"/select/subcomponent"}
         ]
 
         return(

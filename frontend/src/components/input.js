@@ -9,7 +9,10 @@ export class Input extends Component {
         labelClassName: PropTypes.string,
         inputClassName: PropTypes.string,
         type: PropTypes.string,
-        value: PropTypes.string,
+        value: PropTypes.oneOfType([
+            PropTypes.string,
+            PropTypes.number
+          ]),
         disabled: PropTypes.bool
     }
 
