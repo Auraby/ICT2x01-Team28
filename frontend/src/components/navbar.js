@@ -11,12 +11,12 @@ class NavbarDropdown extends Component {
     render() {
         return (
             <li className="nav-item nav-dropdown">
-                <a className="nav-link dropdown-toggle" href="#">{this.props.title}</a>
-                <div class="nav-dropdown-content">
+                <a className="nav-link dropdown-toggle" href={this.props.href}>{this.props.title}</a>
+                <div className="nav-dropdown-content">
                     {
                         this.props.options.map((item, index) => {
                             return (
-                                <a href={item.href} className="nav-link">{item.title}</a>
+                                <a key={"key_" + item.title} href={item.href} className="nav-link">{item.title}</a>
                             )
                         })
                     }
@@ -82,8 +82,8 @@ class Navbar extends Component {
                 <div className="collapse navbar-collapse" id="navbarNav">
                     <ul className="navbar-nav">
                         <NavItems options={navItems} path={this.props.location.pathname}/>
-                        <NavbarDropdown options={assessmentDropdown} title="Assessments"/>
-                        <NavbarDropdown options={subcomponentDropdown} title="Subcomponents"/>
+                        <NavbarDropdown href="/view/assessment" options={assessmentDropdown} title="Assessments"/>
+                        <NavbarDropdown href="/view/subcomponent" options={subcomponentDropdown} title="Subcomponents"/>
                     </ul>
                     <ul className="ml-auto navbar-nav">
                         <li className="nav-item">

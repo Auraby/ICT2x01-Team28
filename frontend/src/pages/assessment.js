@@ -83,23 +83,26 @@ export class ViewAssessment extends Component {
     moduleChange = () => {
         /* Dummy data for now */
         const assessments = [
-            {
+                {
                     "name": "Quiz 1",
-                    "weightage": 0.1,
+                    "weightage": "10%",
                     "date": "02/02/2020",
-                    "maxMarks": 100
+                    "maxMarks": 100,
+                    "id": 1
                 },
                 {
                     "name": "Quiz 1",
-                    "weightage": 0.2,
+                    "weightage": "20%",
                     "date": "02/02/2020",
-                    "maxMarks": 50
+                    "maxMarks": 50,
+                    "id": 2
                 },
                 {
                     "name": "Quiz 1",
-                    "weightage": 0.3,
+                    "weightage": "30%",
                     "date": "02/02/2020",
-                    "maxMarks": 75
+                    "maxMarks": 75,
+                    "id": 3
                 }
         ];
 
@@ -109,14 +112,11 @@ export class ViewAssessment extends Component {
     }
 
     render() { 
-
-        const headers = ["Name", "Weightage", "Max Marks", "Date", "Edit", "Delete"];
-
         return (
             <Panel>
                 <label className="display-1 text-white mb-4">View Assessments</label>
                 <Dropdown name="selectedModule" label="Select Module" options={this.state.modules} onChange={this.moduleChange}/>
-                <Table headers={headers} data={this.state.assessments}/>
+                <Table data={this.state.assessments} type="assessment"/>
             </Panel>
         );
     }
@@ -127,6 +127,7 @@ export class EditAssessment extends Component {
         super(props);
 
         this.state = ({
+            id: "",
             name: "",
             data: "",
             maxMarks: -1,
@@ -136,6 +137,10 @@ export class EditAssessment extends Component {
 
     componentDidMount() {
         /* Use AXIOS to update state */
+
+        this.setState({
+            id: this.props.match.params.id
+        })
     }
 
     handleChange = (event) => {
@@ -154,7 +159,7 @@ export class EditAssessment extends Component {
                     <Input value="100" name="maxMarks" type="text" label="Max Marks" onChange={this.handleChange}/>
                     <Input value="100%" name="weightage" type="text" label="Weightage" onChange={this.handleChange}/>
                     <div className="flexbox">
-                        <button type="submit" className="btn btn-danger">Cancel</button>
+                        <button type="submit" className="btn btn-danger">Delete</button>
                         <button type="submit" className="btn btn-primary">Save</button>
                     </div>
                 </form>

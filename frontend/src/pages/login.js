@@ -6,7 +6,7 @@ export default class Login extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            username: "",
+            email: "",
             password: ""
         }
     }
@@ -19,17 +19,15 @@ export default class Login extends Component {
 
     handleSubmit = (event) => {
         event.preventDefault();
-        console.log(this.state.username);
-        console.log(this.state.password);
     }
 
     render() { 
         return (
             <Panel>
                 <form onSubmit={this.handleSubmit} className="fill-panel">
-                    <label htmlFor="TxtUsername" className="display-1 text-white text-center">Login</label>
-                    <Input name="username" type="text" label="Username" onChange={this.handleChange}/>
-                    <Input name="password" type="password" label="Password" onChange={this.handleChange}/>
+                    <label htmlFor="email" className="display-1 text-white text-center">Login</label>
+                    <Input value={this.state.email} name="email" type="text" label="Email" onChange={this.handleChange}/>
+                    <Input value={this.state.password} name="password" type="password" label="Password" onChange={this.handleChange}/>
                     <button type="submit" className="btn btn-primary">Login</button>
                 </form>
             </Panel>

@@ -107,20 +107,23 @@ export class ViewSubcomponent extends Component {
         
         /* Dummy data for now */
         const subcomponents = [
-            {
+                {
                     "name": "Subcomponent 1",
-                    "weightage": 0.1,
-                    "maxMarks": 100
+                    "weightage": "10%",
+                    "maxMarks": 100,
+                    id: 1
                 },
                 {
                     "name": "Subcomponent 2",
-                    "weightage": 0.2,
-                    "maxMarks": 50
+                    "weightage": "20%",
+                    "maxMarks": 50,
+                    id: 2
                 },
                 {
                     "name": "Subcomponent 3",
-                    "weightage": 0.3,
-                    "maxMarks": 75
+                    "weightage": "30%",
+                    "maxMarks": 75,
+                    id: 3
                 }
         ];
 
@@ -138,16 +141,59 @@ export class ViewSubcomponent extends Component {
 
     render() { 
         
-        const headers = ["Name", "Weightage", "Max Marks", "Edit", "Delete"];
-
         return (
             <Panel>
                 <div className="flexbox column">
                     <label className="display-1 text-white mb-4">View Subcomponents</label>
                     <Dropdown name="selectedModule" label="Select Module" options={this.state.modules} onChange={this.moduleChange}/>
                     <Dropdown name="selectedAssessment" label="Select Assessment" options={this.state.assessments} onChange={this.assessmentChange}/>
-                    <Table headers={headers} data={this.state.subcomponents}/>
+                    <Table type="subcomponent" data={this.state.subcomponents}/>
                 </div>
+            </Panel>
+        );
+    }
+}
+
+export class EditSubcomponent extends Component {
+    constructor(props) {
+        super(props);
+
+        this.state = ({
+            name: "Subcomponent 1",
+            maxMarks: 55,
+            weightage: "10%",
+        });
+    }
+
+    componentDidMount() {
+        /* Use axios to update module list */
+        const modules = ["ICT2101", "ICT2102", "ICT2103"];
+
+        this.setState({
+            id: this.props.match.params.id,
+            modules: modules,
+        });
+    }
+
+    handleChange = (event) => {
+        this.setState({
+            [event.target.name]: event.target.value
+        });
+    }
+
+    render() { 
+        return (
+            <Panel>
+                <form onSubmit={this.handleSubmit} className="flexbox column">
+                    <label className="display-1 text-white mb-4">Edit Subcomponent</label>
+                    <Input value={this.state.name} disabled={this.state.disableInputs} name="name" type="text" label="Subcomponent Name" onChange={this.handleChange}/>
+                    <Input value={this.state.maxMarks} disabled={this.state.disableInputs} name="maxMarks" type="text" label="Max Marks" onChange={this.handleChange}/>
+                    <Input value={this.state.weightage} disabled={this.state.disableInputs} name="weightage" type="text" label="Weightage" onChange={this.handleChange}/>
+                    <div className="flexbox">
+                        <button type="submit" className="btn btn-danger">Delete</button>
+                        <button type="submit" className="btn btn-primary">Save</button>
+                    </div>
+                </form>
             </Panel>
         );
     }

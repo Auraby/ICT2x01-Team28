@@ -51,9 +51,9 @@ export class FileInput extends Component {
   
     render() {
       return (
-        <div class="custom-file my-3">
-            <input type="file" ref={this.fileInput} class="custom-file-input" id="fileInput" onChange={this.fileChange}/>
-            <label class="custom-file-label text-white" for="fileInput">{this.fileInput.current === null ? "No file selected" : "test"}</label>
+        <div className="custom-file my-3">
+            <input type="file" ref={this.fileInput} className="custom-file-input" id="fileInput" onChange={this.fileChange}/>
+            <label className="custom-file-label text-white" htmlFor="fileInput">{this.fileInput.current === null ? "No file selected" : "test"}</label>
         </div>
       );
     }

@@ -6,7 +6,7 @@ import Login from './pages/login';
 import Upload from './pages/upload';
 import Navbar from './components/navbar';
 import { AddAssessment, EditAssessment, ViewAssessment } from './pages/assessment';
-import { AddSubcomponent, ViewSubcomponent } from './pages/subcomponent';
+import { AddSubcomponent, ViewSubcomponent, EditSubcomponent } from './pages/subcomponent';
 
 import { MyProvider } from './context/myContext';
 
@@ -29,9 +29,10 @@ export default class App extends React.Component {
                                 <Route exact path="/upload" component={Upload} />
                                 <Route exact path="/add/assessment" component={AddAssessment} />
                                 <Route exact path="/view/assessment" component={ViewAssessment} />
-                                <Route exact path="/edit/assessment" component={EditAssessment} />
+                                <Route exact path="/edit/assessment/:id" component={EditAssessment} />
                                 <Route exact path="/add/subcomponent" component={AddSubcomponent} />
                                 <Route exact path="/view/subcomponent" component={ViewSubcomponent} />
+                                <Route exact path="/edit/subcomponent/:id" component={EditSubcomponent} />
                             </Switch>
                         </main>
                         <aside></aside>

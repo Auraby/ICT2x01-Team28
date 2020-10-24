@@ -1,6 +1,29 @@
 import React, { Component } from 'react';
 import PropTypes from "prop-types";
 
+class ObjectData extends Component {
+    static propTypes = {
+        type: PropTypes.string.isRequired,
+        object: PropTypes.object.isRequired
+    }
+
+    render() {
+        const object = this.props.object;
+
+        return (
+            <tr className="text-center">
+                {Object.keys(object).map(function(key, _) {
+                    return (
+                        <td>{object[key]}</td>
+                    )
+                })}
+                <td><a href={`/edit/${this.props.type}/${object.id}`} className="text-primary"><i className="fas fa-edit"></i></a></td>
+                <td><a href={`/delete/${this.props.type}/${object.id}`} className="text-danger"><i className="fas fa-trash"></i></a></td>
+            </tr>
+        )
+    }
+}
+
 export class Table extends Component {
     static propTypes = {
         headers: PropTypes.array.isRequired,
@@ -22,8 +45,7 @@ export class Table extends Component {
     }
 
     render() { 
-
-        const headers = this.props.headers;
+        
         const data = this.props.data;
 
         if (this.props.data.length === 0) {
@@ -34,19 +56,18 @@ export class Table extends Component {
             <table className={this.props.className}>
                 <thead>
                     <tr className="text-white text-center">
-                        {headers.map(h => <th className="font-weight-normal" key={"key_" + h}>{h}</th>)}
+                        {
+                            Object.keys(data[0]).map(function(key) {
+                                return <th className="font-weight-normal" key={"key_" + key}>{key}</th>
+                            })
+                        }
+                         <th className="font-weight-normal" key={"key_edit"}>Edit</th>
+                         <th className="font-weight-normal" key={"key_delete"}>Delete</th>
                     </tr>
                 </thead>
                 <tbody>
                     {data.map(d =>
-                        <tr className="text-center">
-                            <td>{d.name}</td>
-                            <td>{d.weightage * 100 + "%"}</td>
-                            <td>{d.maxMarks}</td>
-                            <td>{d.date}</td>
-                            <td><a href="/" className="text-primary"><i className="fas fa-edit"></i></a></td>
-                            <td><a href="/" className="text-danger"><i className="fas fa-trash"></i></a></td>
-                        </tr>
+                        <ObjectData object={d} type={this.props.type}/>
                     )}
                 </tbody>
             </table>
