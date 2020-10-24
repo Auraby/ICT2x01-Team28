@@ -9,7 +9,8 @@ export class Input extends Component {
         labelClassName: PropTypes.string,
         inputClassName: PropTypes.string,
         type: PropTypes.string,
-        value: PropTypes.string
+        value: PropTypes.string,
+        disabled: PropTypes.bool
     }
 
     static defaultProps = {
@@ -17,13 +18,14 @@ export class Input extends Component {
         inputClassName: "form-control",
         type: "text",
         value: "",
+        disabled: false
     }
 
     render() {
         return (
             <div className="form-group">
                 <label htmlFor={this.props.name} className={this.props.labelClassName}>{ this.props.label }</label>
-                <input name={this.props.name} id={this.props.name} className={this.props.inputClassName} type={this.props.type} onChange={this.props.onChange} value={this.props.value}/>
+                <input disabled={this.props.disabled} name={this.props.name} id={this.props.name} className={this.props.inputClassName} type={this.props.type} onChange={this.props.onChange} value={this.props.value}/>
             </div>
         )
     }
