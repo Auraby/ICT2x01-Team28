@@ -7,6 +7,7 @@ import Login from './pages/login';
 import Upload from './pages/upload';
 import Navbar from './components/navbar';
 import { AddAssessment, EditAssessment, ViewAssessment } from './pages/assessment';
+import { AddSubcomponent } from './pages/subcomponent';
 
 import { MyProvider } from './context/myContext';
 

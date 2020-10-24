@@ -62,8 +62,8 @@ $custom-select-color             : $white;
 $custom-select-bg                : $input-bg-color;
 $custom-select-border-color      : $gray-700;
 $custom-select-focus-border-color: $primary-color;
-$custom-select-disabled-bg:        $gray-600;
-$custom-select-disabled-color:     $white;
+$custom-select-disabled-bg       : $gray-600;
+$custom-select-disabled-color    : $white;
 
 /* Override heading font sizes */
 $display1-size: 30px;
@@ -80,22 +80,25 @@ $nav-pills-link-active-bg         : #313D4E;
 $nav-tabs-link-active-border-color: #1CAF9A;
 
 /* Table style overrides */
-$table-head-color:            $white;
-$table-head-bg:               $white;
+$table-head-color: $white;
+$table-head-bg   : $white;
 
 /* Override default theme colors */
 $theme-colors: (
     primary  : $primary-color,
     danger   : $red-color,
     secondary: $secondary-color,
-    /*
+
+    /* --------------------------
+        DO NOT EDIT
+    -----------------------------
     success  : #,
     info     : #,
     warning  : #,
     danger   : #,
     light    : #,
     dark     : #,
-    */
+    -------------------------- */
 );
 @import "./bootstrap/scss/bootstrap.scss";
 
@@ -112,8 +115,8 @@ body {
 
 
 @mixin flexbox-center {
-    display: flex;
-    align-items: center;
+    display        : flex;
+    align-items    : center;
     justify-content: center;
 }
 

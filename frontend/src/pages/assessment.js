@@ -13,7 +13,17 @@ export class AddAssessment extends Component {
             data: "",
             maxMarks: -1,
             weightage: -1.0,
+            modules: [],
         })
+    }
+
+    componentDidMount() {
+        /* Use axios to update module list */
+        const modules = ["ICT2101", "ICT2102", "ICT2103"];
+
+        this.setState({
+            modules: modules
+        });
     }
 
     handleChange = (event) => {
@@ -27,6 +37,7 @@ export class AddAssessment extends Component {
             <Panel>
                 <form onSubmit={this.handleSubmit} className="flexbox column">
                     <label className="display-1 text-white mb-4">Add Assessment</label>
+                    <Dropdown name="selectedModule" label="Select Module" options={this.state.modules} onChange={this.moduleChange}/>
                     <Input name="name" type="text" label="Assessment Name" onChange={this.handleChange}/>
                     <Input name="date" type="text" label="Assessment Date" onChange={this.handleChange}/>
                     <Input name="maxMarks" type="text" label="Max Marks" onChange={this.handleChange}/>
