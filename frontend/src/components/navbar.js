@@ -9,10 +9,13 @@ class Navbar extends Component {
 
     render() {
         const navItems = [
-            {
-                title: "Home",
-                href: "/home"
-            }];
+            {title: "Home", href: "/home"},
+            {title: "Login",href: "/login"},
+            {title: "Upload",href: "/upload"},
+            {title: "Add Assessment", href: "/add/assessment"},
+            {title: "View Assessment", href: "/view/assessment"},
+            {title: "Edit Assessment", href:"/edit/assessment"}
+        ];
 
         return(
             <nav className="navbar navbar-expand-lg navbar-dark shadow bg-secondary">
@@ -26,7 +29,7 @@ class Navbar extends Component {
                             navItems.map((item, index) => {
                                 return (
                                     <li className={this.getNavlinkParentStyle(item.href)} key={index}>
-                                        <NavLink to={item.href} className="nav-link" activeClassName="active">{item.title}</NavLink>
+                                        <NavLink to={item.href} className="nav-link">{item.title}</NavLink>
                                     </li>
                                 )
                             })

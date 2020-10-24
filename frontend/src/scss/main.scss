@@ -13,6 +13,8 @@ $href-color        : #28929A;
 $primary-color     : #15C8B1;
 $secondary-color   : #273142;
 $red-color         : #F3565D;
+$input-bg-color    : #222C3C;
+$disabled-bg-color : $gray-600;
 
 /* ---------------------------------------------------------------------------------------------------
    Bootstrap customization (DO NOT EDIT PLEASE)
@@ -23,33 +25,45 @@ $font-family-sans-serif: $global-font;
 $font-family-monospace : $global-font;
 $font-family-base      : $global-font;
 
+/* Button style overrides */
+$btn-padding-y: 8px;
+$btn-padding-x: 15px;
+
 /* Link overrides */
 $link-color           : $href-color;
 $link-hover-decoration: underline;
 
 /* Override input css*/
-$input-bg          : #222C3C;
+$input-bg          : $input-bg-color;
 $input-color       : $white;
 $input-border-color: $gray-700;
 $input-disabled-bg : $gray-600;
 
 /* Override input focus css */
-$input-focus-bg: $background-color;
-$input-focus-color: $white;
+$input-focus-bg          : $background-color;
+$input-focus-color       : $white;
 $input-focus-border-color: $primary-color;
 
 /* Override file input css */
 $custom-file-button-bg: rgba(255, 255, 255, 0);
 
-$custom-file-text: (en: "Choose");
-$custom-file-border-width: 1px;
-$custom-file-border-color: $gray-700;
-$custom-file-bg: $input-bg;
+$custom-file-text              : (en: "Choose");
+$custom-file-border-width      : 1px;
+$custom-file-border-color      : $gray-700;
+$custom-file-bg                : $input-bg;
 $custom-file-focus-border-color: $primary-color;
 
 /* File input right side button styles */
 $custom-file-button-color: $white;
-$custom-file-button-bg: $primary-color;
+$custom-file-button-bg   : $primary-color;
+
+/* Select dropdown overrides */
+$custom-select-color             : $white;
+$custom-select-bg                : $input-bg-color;
+$custom-select-border-color      : $gray-700;
+$custom-select-focus-border-color: $primary-color;
+$custom-select-disabled-bg:        $gray-600;
+$custom-select-disabled-color:     $white;
 
 /* Override heading font sizes */
 $display1-size: 30px;
@@ -64,6 +78,10 @@ $nav-link-padding-y               : 15px;
 $nav-tabs-link-active-bg          : #313D4E;
 $nav-pills-link-active-bg         : #313D4E;
 $nav-tabs-link-active-border-color: #1CAF9A;
+
+/* Table style overrides */
+$table-head-color:            $white;
+$table-head-bg:               $white;
 
 /* Override default theme colors */
 $theme-colors: (
@@ -91,6 +109,7 @@ body {
     margin: 0;
     overflow: hidden;
 }
+
 
 @mixin flexbox-center {
     display: flex;

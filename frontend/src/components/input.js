@@ -8,20 +8,22 @@ export class Input extends Component {
         onChange: PropTypes.func.isRequired,
         labelClassName: PropTypes.string,
         inputClassName: PropTypes.string,
-        type: PropTypes.string
+        type: PropTypes.string,
+        value: PropTypes.string
     }
 
     static defaultProps = {
         labelClassName: "text-light-2",
         inputClassName: "form-control",
         type: "text",
+        value: "",
     }
 
     render() {
         return (
             <div className="form-group">
                 <label htmlFor={this.props.name} className={this.props.labelClassName}>{ this.props.label }</label>
-                <input name={this.props.name} id={this.props.name} className={this.props.inputClassName} type={this.props.type} onChange={this.props.onChange}/>
+                <input name={this.props.name} id={this.props.name} className={this.props.inputClassName} type={this.props.type} onChange={this.props.onChange} value={this.props.value}/>
             </div>
         )
     }

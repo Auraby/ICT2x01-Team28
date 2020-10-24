@@ -122,3 +122,7 @@ backend/mongodb.py
 # ignore pycache
 backend/__pycache__
 backend/__pycache__/*
+
+# ignore redundant css files
+frontend/public/css/bootstrap
+frontend/public/css/bootstrap/*

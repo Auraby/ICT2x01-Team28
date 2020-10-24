@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { FileInput, Input } from '../components/input';
+import { FileInput } from '../components/input';
 import { Panel } from '../components/panel';
 
 export default class Upload extends Component {

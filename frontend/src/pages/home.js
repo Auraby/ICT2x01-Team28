@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 // import axios from 'axios';
 import { MyContext } from '../context/myContext';
-import { DropdownWithLabel } from '../components/dropdown';
+import { Dropdown } from '../components/dropdown';
+import { Panel } from '../components/panel';
 
 
 /***********************************************************
@@ -97,21 +98,15 @@ export class StudentHome extends Component {
     render() {
         return (
             <>
-            <div className="panel bg-secondary">
+            <Panel>
                 <form onSubmit={this.handleSubmit}>
                 <label htmlFor="DrpModule" className="display-1 text-white">View Feedback</label>
-                    <div class="form-group">
-                        <DropdownWithLabel id="DrpModule" label="Select Module" className="form-control" options={this.state.modules} onChange={this.moduleChange}/>
-                    </div>
-                    <div class="form-group">
-                        <DropdownWithLabel id="DrpAssessment" label="Select Assessment" className="form-control" options={this.state.assessments} onChange={this.assessmentChange}/>
-                    </div>
-                    <div class="form-group">
-                        <DropdownWithLabel id="DrpSubcomponent" label="Select Subcomponent" className="form-control" options={this.state.subcomponents} onChange={this.subcomponentChange}/>
-                    </div>
-                    <button type="submit" className="btn-primary btn">View</button>
+                <Dropdown name="selectedModule" label="Select Module" options={this.state.modules} onChange={this.moduleChange}/>
+                <Dropdown name="selectedAssessment" label="Select Assessment" options={this.state.assessments} onChange={this.assessmentChange}/>
+                <Dropdown name="selectedSubcomponent" label="Select Subcomponent" options={this.state.subcomponents} onChange={this.subcomponentChange}/>
+                <button type="submit" className="btn-primary btn">View</button>
                 </form>
-            </div>
+            </Panel>
             </>
         )
     }
