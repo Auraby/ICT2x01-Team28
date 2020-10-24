@@ -1,32 +1,38 @@
 import React, { Component } from 'react';
-import { InputWithLabel } from '../components/input';
+import { Input } from '../components/input';
+import { Panel } from '../components/panel';
 
 export default class Login extends Component {
     constructor(props) {
         super(props);
-        this.state = {  }
+        this.state = {
+            username: "",
+            password: ""
+        }
+    }
+
+    handleChange = (event) => {
+        this.setState({
+          [event.target.name]: event.target.value
+        });
     }
 
     handleSubmit = (event) => {
         event.preventDefault();
+        console.log(this.state.username);
+        console.log(this.state.password);
     }
 
     render() { 
         return (
-            <div className="login-container shadow">
-                <div className="login-card">
-                    <form onSubmit={this.handleSubmit}>
-                        <label className="login-title">Login</label>
-                        <div className="pt-3 pb-3">
-                            <InputWithLabel inputClass="login-input" inputId="TxtUsername" label="Username" />
-                        </div>
-                        <div className="pb-3">
-                            <InputWithLabel inputClass="login-input" inputId="TxtPassword"label="Password" />
-                        </div>
-                        <button type="submit" className="login-button">Login</button>
-                    </form>
-                </div>
-            </div>
+            <Panel>
+                <form onSubmit={this.handleSubmit} className="fill-panel">
+                    <label htmlFor="TxtUsername" className="display-1 text-white text-center">Login</label>
+                    <Input name="username" type="text" label="Username" onChange={this.handleChange}/>
+                    <Input name="password" type="password" label="Password" onChange={this.handleChange}/>
+                    <button type="submit" className="btn btn-primary">Login</button>
+                </form>
+            </Panel>
         )
     }
 }

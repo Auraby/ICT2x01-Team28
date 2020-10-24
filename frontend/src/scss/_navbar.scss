@@ -1,0 +1,4 @@
+.nav-item.active {
+    border-top: 2px solid $primary-color;
+    background-color: lighten($secondary-color, 7.5%);
+}

@@ -1,0 +1,67 @@
+.hg-container {
+    display: grid;
+
+    grid-template-areas:
+    "header header header"
+    "leftnav main rightnav"
+    "footer footer footer";
+
+    grid-template-columns: 200px 1fr;
+    grid-template-rows: auto 1fr auto;
+    grid-gap: 0px;
+    grid-column-gap: 20px;
+
+    height: 100vh;
+}
+
+header {
+    grid-area: header;
+  }
+  
+nav {
+    grid-area: leftnav;
+    margin-left: 0rem;
+}
+
+main {
+    @include flexbox-center;
+    grid-area: main;
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+aside {
+    grid-area: rightnav;
+    margin-right: 20rem;
+}
+
+footer {
+    grid-area: footer;
+}
+
+@media (max-width: 768px) {
+    .hg-container {
+      grid-template-areas:
+        "header"
+        "main"
+        "footer";
+  
+      grid-template-columns: 1fr;
+      grid-template-rows:
+        auto /* Header */
+        minmax(75px, auto) /* Nav */
+        1fr /* Content */
+        minmax(75px, auto) /* Sidebar */
+        auto; /* Footer */
+    }
+
+    main {
+        @include flexbox-center;
+    }
+  
+    nav, aside {
+      margin: 0;
+    }
+  }
