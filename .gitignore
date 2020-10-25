@@ -126,3 +126,7 @@ backend/__pycache__/*
 # ignore redundant css files
 frontend/public/css/bootstrap
 frontend/public/css/bootstrap/*
+
+# ignore bootstrap scss
+frontend/src/scss/bootstrap/*
+frontend/src/scss/bootstrap/
