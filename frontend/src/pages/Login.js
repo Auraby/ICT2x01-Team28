@@ -1,8 +1,13 @@
 import React, { Component } from 'react';
 import { Input } from '../components/input';
 import { Panel } from '../components/panel';
+/* import { Redirect } from 'react-router-dom'; */
+import { MyContext } from '../context/myContext';
 
 export default class Login extends Component {
+
+    static contextType = MyContext;
+
     constructor(props) {
         super(props);
         this.state = {
@@ -19,6 +24,7 @@ export default class Login extends Component {
 
     handleSubmit = (event) => {
         event.preventDefault();
+        this.context.login(this.state.email);
     }
 
     render() { 

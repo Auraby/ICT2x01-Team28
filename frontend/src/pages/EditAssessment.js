@@ -33,7 +33,12 @@ export default class EditAssessment extends Component {
         return (
             <Panel>
                 <form onSubmit={this.handleSubmit} className="flexbox column">
-                    <label className="display-1 text-white mb-4">Edit Assessment</label>
+                    <div className="flexbox flexbox-center mb-4">
+                        <label className="display-1 text-white">Edit Assessment</label>
+                        <a href="/add/feedback/1">
+                            <i class="fas fa-comment-medical"></i>
+                        </a>
+                    </div>
                     <Input value="Quiz 1" name="name" type="text" label="Assessment Name" onChange={this.handleChange}/>
                     <Input value="20/20/2020" name="date" type="text" label="Assessment Date" onChange={this.handleChange}/>
                     <Input value="100" name="maxMarks" type="text" label="Max Marks" onChange={this.handleChange}/>

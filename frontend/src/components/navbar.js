@@ -73,6 +73,11 @@ class Navbar extends Component {
             {title: "Edit Subcomponent", href:"/select/subcomponent"}
         ]
 
+        const feedbackDropdown = [
+            {title: "Add feedback", href: "/add/feedback/1"},
+            {title: "View feedback", href:"/view/feedback/1"}
+        ]
+
         return(
             <nav className="navbar navbar-expand-lg navbar-dark shadow bg-secondary">
                 <a className="navbar-brand" href="/home">SIT</a>
@@ -82,12 +87,13 @@ class Navbar extends Component {
                 <div className="collapse navbar-collapse" id="navbarNav">
                     <ul className="navbar-nav">
                         <NavItems options={navItems} path={this.props.location.pathname}/>
-                        <NavbarDropdown href="/view/assessment" options={assessmentDropdown} title="Assessments"/>
-                        <NavbarDropdown href="/view/subcomponent" options={subcomponentDropdown} title="Subcomponents"/>
+                        <NavbarDropdown href="/view/assessment" options={assessmentDropdown} title="Assessment"/>
+                        <NavbarDropdown href="/view/subcomponent" options={subcomponentDropdown} title="Subcomponent"/>
+                        <NavbarDropdown href="/view/feedback" options={feedbackDropdown} title="Feedback"/>
                     </ul>
                     <ul className="ml-auto navbar-nav">
                         <li className="nav-item">
-                            <a className="nav-link text-danger" href="/">
+                            <a className="nav-link text-danger" href="/logout">
                                 <i className="fas fa-sign-out-alt mr-2"></i>
                                 Logout
                             </a>

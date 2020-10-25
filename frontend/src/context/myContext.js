@@ -1,6 +1,6 @@
 import React, { createContext } from 'react';
 
-export const MyContext = createContext('TEST');
+export const MyContext = createContext();
 
 export const MyConsumer = MyContext.Consumer;
 
@@ -9,7 +9,8 @@ export class MyProvider extends React.Component {
         super(props);
 
         this.state = {
-            user: null
+            email: "",
+            role: ""
         }
     }    
 
@@ -21,11 +22,26 @@ export class MyProvider extends React.Component {
         })
     }
 
+    logout = () => {
+        this.setState({
+            email: "",
+            role: ""
+        })
+    }
+
+    login = (email, role) => {
+        this.setState({
+            email: email,
+            role: role,
+        });
+    }
+
     render() {
         return (
             <MyContext.Provider value={ {
-                currency: this.state.myState,
-                changeState: this.changeState
+                state: this.state,
+                logout: this.logout,
+                login: this.login
             }}>
                 {this.props.children}
             </MyContext.Provider>
