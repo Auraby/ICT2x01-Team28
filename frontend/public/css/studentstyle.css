@@ -1,21 +1,71 @@
+/* --- Student Profile Page CSS --- */
+/*Profile IDs and Class CSS*/
 #profile
 {
-    background-color: aquamarine;
+    background-color: white;
+    text-align: center;
 }
+
+#profile > div
+{
+    margin-top: 10%;
+}
+
+#profilecontainer
+{
+    margin-top: 5%;    
+}
+
+#main-profile-row
+{
+    height: 40em;
+}
+
+#feedbackButtons > button
+{
+    margin-top: 2%;
+}
+
+
+/*Achievement Panel IDs and Class */
+#achivementPanel
+{
+    margin-top: 30%;
+    height: 20em;
+    background-color:wheat;
+}
+
+#achpanelHeader
+{
+    text-align: center;
+    
+}
+
+#achievements
+{
+    margin-top: 5em;
+}
+
+/*Progress Ladder IDs and Class*/
 
 #progressLadder
 {
-    background-color: brown;
+    background-color: black;
+}
+
+#first-in-bracket
+{
+    text-align: center;
 }
 
 #innerblock
 {
+    padding-top: 5%;
+    padding-bottom: 5%;
+    height: 40em;
+    width: 45em;
     background-color: darkcyan;
-}
-
-#achivementPanel
-{
-    background-color: chocolate;
+    color: white;
 }
 
 .positionImage
@@ -23,3 +73,47 @@
     padding-left: 5%;
     padding-right: 5%;
 }
+
+.steps
+{
+    text-align: center;
+    margin-top: 2em;
+    margin-bottom: 2em;
+    padding-top: 2em;
+    padding-bottom: 2em;
+    background-color: darkgoldenrod;
+}
+
+/* --- Achievement Page CSS --- */
+
+#achprofile
+{
+    text-align: center;
+}
+
+#achievementScreen
+{
+    text-align: center;
+    height: 40em;
+    background-color: gray;
+}
+
+#innerscreenBlock
+{
+    padding-top: 1em;
+}
+
+#achieve-page-container
+{
+    margin-top: 10%;
+}
+
+.achievementrows
+{
+    margin-top: 5em;
+    margin-bottom: 5em;
+}
+
+
+
+

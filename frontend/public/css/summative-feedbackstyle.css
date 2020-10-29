@@ -1,0 +1,41 @@
+/*Feedback header*/
+
+#feedbackNav
+{
+    text-align: center;
+    margin: auto;
+}
+
+#topbutton
+{
+    text-align: center;
+    margin-top: 5em;
+    margin-bottom: 10em;
+}
+
+#midleftbtn
+{
+    text-align: center;
+}
+
+#midprofilepic
+{
+    text-align: center;
+}
+
+#midrightbtn
+{
+    text-align: center;
+}
+
+#bottombutton
+{
+    text-align: center;
+    margin-top: 10em;
+    margin-bottom: 5em;
+}
+
+#fbpagination
+{
+    margin-top: 3em;
+}
