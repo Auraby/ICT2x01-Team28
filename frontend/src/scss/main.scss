@@ -1,69 +1,84 @@
-@import "bootstrap/scss/functions"; 
+@import "bootstrap/scss/functions";
 @import "bootstrap/scss/variables";
-@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
-
+@import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
 
 /* ---------------------------------------------------------------------------------------------------
     Global variables
 --------------------------------------------------------------------------------------------------- */
-$global-font       : 'Roboto';
-$background-color  : #1B2431;
+
+/* Default site-wide font */
+$global-font: "Roboto";
+
+/* Background color */
+$background-color: #1b2431;
+
+/* Accent color */
+$secondary-color: #273142;
+
+/* Default text color */
 $default-text-color: #718093;
-$href-color        : #28929A;
-$primary-color     : #15C8B1;
-$secondary-color   : #273142;
-$red-color         : #F3565D;
-$input-bg-color    : #222C3C;
-$disabled-bg-color : $gray-600;
+
+/* Navbar text color */
+$navbar-dark-color: $default-text-color;
+
+$navbar-dark-toggler-border-color: #ffffff;
+
+$href-color: #28929a;
+$primary-color: #15c8b1;
+$red-color: #f3565d;
+$input-bg-color: #222c3c;
+$disabled-bg-color: $gray-600;
 
 /* ---------------------------------------------------------------------------------------------------
    Bootstrap customization (DO NOT EDIT PLEASE)
 --------------------------------------------------------------------------------------------------- */
-$body-bg               : $background-color;
-$body-color            : $default-text-color;
+$body-bg: $background-color;
+$body-color: $default-text-color;
 $font-family-sans-serif: $global-font;
-$font-family-monospace : $global-font;
-$font-family-base      : $global-font;
+$font-family-monospace: $global-font;
+$font-family-base: $global-font;
 
 /* Button style overrides */
 $btn-padding-y: 8px;
 $btn-padding-x: 15px;
 
 /* Link overrides */
-$link-color           : $href-color;
+$link-color: $href-color;
 $link-hover-decoration: underline;
 
 /* Override input css*/
-$input-bg          : $input-bg-color;
-$input-color       : $white;
+$input-bg: $input-bg-color;
+$input-color: $white;
 $input-border-color: $gray-700;
-$input-disabled-bg : $gray-600;
+$input-disabled-bg: $gray-600;
 
 /* Override input focus css */
-$input-focus-bg          : $background-color;
-$input-focus-color       : $white;
+$input-focus-bg: $background-color;
+$input-focus-color: $white;
 $input-focus-border-color: $primary-color;
 
 /* Override file input css */
 $custom-file-button-bg: rgba(255, 255, 255, 0);
 
-$custom-file-text              : (en: "Choose");
-$custom-file-border-width      : 1px;
-$custom-file-border-color      : $gray-700;
-$custom-file-bg                : $input-bg;
+$custom-file-text: (
+	en: "Choose",
+);
+$custom-file-border-width: 1px;
+$custom-file-border-color: $gray-700;
+$custom-file-bg: $input-bg;
 $custom-file-focus-border-color: $primary-color;
 
 /* File input right side button styles */
 $custom-file-button-color: $white;
-$custom-file-button-bg   : $primary-color;
+$custom-file-button-bg: $primary-color;
 
 /* Select dropdown overrides */
-$custom-select-color             : $white;
-$custom-select-bg                : $input-bg-color;
-$custom-select-border-color      : $gray-700;
+$custom-select-color: $white;
+$custom-select-bg: $input-bg-color;
+$custom-select-border-color: $gray-700;
 $custom-select-focus-border-color: $primary-color;
-$custom-select-disabled-bg       : $gray-600;
-$custom-select-disabled-color    : $white;
+$custom-select-disabled-bg: $gray-600;
+$custom-select-disabled-color: $white;
 
 /* Override heading font sizes */
 $display1-size: 30px;
@@ -72,24 +87,23 @@ $display3-size: 22px;
 $display4-size: 18px;
 
 /* Navbar options */
-$navbar-padding-y                 : 0px;
-$navbar-nav-link-padding-x        : 20px;
-$nav-link-padding-y               : 15px;
-$nav-tabs-link-active-bg          : #313D4E;
-$nav-pills-link-active-bg         : #313D4E;
-$nav-tabs-link-active-border-color: #1CAF9A;
+$navbar-padding-y: 0px;
+$navbar-nav-link-padding-x: 20px;
+$nav-link-padding-y: 15px;
+$nav-tabs-link-active-bg: #313d4e;
+$nav-pills-link-active-bg: #313d4e;
+$nav-tabs-link-active-border-color: #1caf9a;
 
 /* Table style overrides */
 $table-head-color: $white;
-$table-head-bg   : $white;
+$table-head-bg: $white;
 
 /* Override default theme colors */
 $theme-colors: (
-    primary  : $primary-color,
-    danger   : $red-color,
-    secondary: $secondary-color,
-
-    /* --------------------------
+	primary: $primary-color,
+	danger: $red-color,
+	secondary: $secondary-color,
+	/* --------------------------
         DO NOT EDIT
     -----------------------------
     success  : #,
@@ -101,25 +115,27 @@ $theme-colors: (
     -------------------------- */
 );
 @import "./bootstrap/scss/bootstrap.scss";
-
 /* ---------------------------------------------------------------------------------------------------
    All other rubbish CSS below 
---------------------------------------------------------------------------------------------------- */
+------
+
+--------------------------------------------------------------------------------------------- */
 
 body {
-    height: 100vh;
-    width : 100%;
-    margin: 0;
-    overflow-x: hidden;
+	height: 100vh;
+	width: 100%;
+	margin: 0;
+	overflow-x: hidden;
 }
 
-
 @mixin flexbox-center {
-    display        : flex;
-    align-items    : center;
-    justify-content: center;
+	display: flex;
+	align-items: center;
+	justify-content: center;
 }
 
 @import "./_layout.scss";
 @import "./_content.scss";
+@import "./flexbox.scss";
 @import "./_navbar.scss";
+@import "./gamification";

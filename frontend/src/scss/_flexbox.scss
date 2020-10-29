@@ -1,0 +1,57 @@
+.flexbox {
+	display: flex;
+	width: 100%;
+	height: 100%;
+}
+
+.flexbox.column {
+	flex-direction: column;
+}
+
+.flexbox.row {
+	flex-direction: row;
+}
+
+.flexbox {
+	justify-content: space-between;
+}
+
+.flexbox-center {
+	align-items: center;
+}
+
+.fb {
+	display: flex;
+}
+
+.fb.fb-col {
+	flex-direction: column;
+}
+
+.fb.fb-row {
+	flex-direction: row;
+}
+
+.fb.fb-sb {
+	justify-content: space-between;
+}
+
+.fb.fb-sa {
+	justify-content: space-around;
+}
+
+.fb.fb-se {
+	justify-content: space-evenly;
+}
+
+.fb.fb-center {
+	align-items: center;
+}
+
+.fb.fb-wrap {
+	flex-wrap: wrap;
+}
+
+.fb .fb-fw {
+	width: 100%;
+}

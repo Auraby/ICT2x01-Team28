@@ -1,36 +1,36 @@
 .nav-item.active {
-    border-top: 2px solid $primary-color;
-    background-color: lighten($secondary-color, 7.5%);
+	border-top: 2px solid $primary-color;
+	background-color: lighten($secondary-color, 7.5%);
 }
 
 .nav-dropdown-content {
-    display: none;
-    position: absolute;
-    background-color: $secondary-color;
-    min-width: 160px;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-    z-index: 1;
-  }
+	display: none;
+	position: absolute;
+	background-color: $secondary-color;
+	min-width: 160px;
+	box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+	z-index: 1;
+}
 
 .nav-dropdown-content a {
-    float: none;
-    color: $default-text-color;
-    padding: 12px 16px;
-    text-decoration: none;
-    display: block;
-    text-align: left;
+	float: none;
+	color: $default-text-color;
+	padding: 12px 16px;
+	text-decoration: none;
+	display: block;
+	text-align: left;
 }
 
 .nav-item.nav-dropdown:hover {
-    color: lighten($default-text-color, 33%);
+	color: lighten($default-text-color, 33%);
 }
 
-.nav-item.nav-dropdown:hover .nav-dropdown-content{
-    display: block;
-    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+.nav-item.nav-dropdown:hover .nav-dropdown-content {
+	display: block;
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
 }
 
 .nav-dropdown-content a:hover {
-    background-color: lighten($secondary-color, 4%);
-    color: lighten($default-text-color, 50%);
+	background-color: lighten($secondary-color, 4%);
+	color: lighten($default-text-color, 50%);
 }
