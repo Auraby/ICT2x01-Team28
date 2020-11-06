@@ -130,3 +130,9 @@ frontend/public/css/bootstrap/*
 # ignore bootstrap scss
 frontend/src/scss/bootstrap/*
 frontend/src/scss/bootstrap/
+
+# Python Virtual Environment
+venv
+
+# .idea folder
+.idea
