@@ -26,11 +26,11 @@ class FeedbackFactory:
     def makeFeedback(cls, feedbackObject): # I presume an object will be passed in here or soemthing
 
         if (feedbackObject.type.lower() == "summative"):
-            print(feedbackObject)
+            # print(feedbackObject)
             return createFeedback.SummativeFeedback(feedbackObject)
 
         if (feedbackObject.type.lower() == "formative"):
-            print(feedbackObject)
+            # print(feedbackObject)
             return createFeedback.FormativeFeedback(feedbackObject)
 
 

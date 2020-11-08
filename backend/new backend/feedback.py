@@ -1,3 +1,5 @@
+import json 
+from collections import namedtuple
 from abc import ABC
 
 class Feedback(ABC):
@@ -6,10 +8,14 @@ class Feedback(ABC):
     comments: str
     type: str
 
-    def __init__(self, id: int, comments: str, type: str):
-        self.id = id
-        self.comments = comments
-        self.type = type
+    def __init__(self, feedbackDict:dict):
+        
+        FeedbackTuple = json.loads(feedbackDict, object_hook =
+               lambda d : namedtuple('x', d.keys()) (*d.values())) 
+    
+        self.id = FeedbackTuple.id  
+        self.comments = FeedbackTuple.comments
+        self.type = FeedbackTuple.type
 
 #     def getId(self) -> id:
 #         pass

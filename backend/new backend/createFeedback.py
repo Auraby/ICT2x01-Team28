@@ -9,7 +9,7 @@ class CreateFeedback(ABC):
 
 class SummativeFeedback(IFeedback.iFeedback, CreateFeedback):
 
-    def executeCeateFeedback(self):
+    def executeCreateFeedback(self):
         
         try:
             
@@ -29,7 +29,7 @@ class SummativeFeedback(IFeedback.iFeedback, CreateFeedback):
 
 class FormativeFeedback(IFeedback.iFeedback, CreateFeedback):
 
-    def executeCeateFeedback(self):
+    def executeCreateFeedback(self):
         
         try:
             
