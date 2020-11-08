@@ -55,4 +55,5 @@ class LadderPosition:
         pass
 
     def comparePosition(self):
+        #
         pass
