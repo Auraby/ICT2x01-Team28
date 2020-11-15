@@ -1,34 +1,61 @@
-from abc import ABC
+from abc import ABC, abstractmethod
+from mapper import IMapper
+import typing
+import database
 
-class Feedback(ABC):
 
-    id: int
-    comments: str
-    type: str
+class Feedback(ABC, IMapper):
 
-    def __init__(self):
-        pass
+    id: str
+    commments: str
 
-    def getId(self) -> id:
-        pass
+    def __init__(self, id: str, comments: str = None):
+        self.id = id
+        self.commments = comments
 
-    def getComments(self) -> str:
-        pass
+    def to_dict(self) -> typing.Dict:
+        return self.__dict__
 
-    def getMarks(self) -> int:
-        pass
+    def save(self):
+        return database.insert(self.to_dict(), "ict2x01_feedback")
 
-    def setComments(self, comments: str) -> None:
-        pass
+    def find(self) -> bool:
+        if (result := database.select({"id": self.id}, "ict2x01_feedback")):
+            self.name = result["name"]
+            self.email = result["email"]
+            return True
 
-    def setMarks(self, marks: int) -> None:
-        pass
+        return False
 
-    def setType(self, type: str) -> None:
-        pass
+    def delete(self):
+        return database.delete(self.to_dict(), "ict2x01_feedback")
 
-class Summative(Feedback):
-    pass
 
-class Formative(Feedback):
-    pass
+class Formative(ABC):
+
+    def __init__(self, id: str, comments: str = None):
+        super().__init__(id, comments)
+
+
+class Summative(ABC):
+
+    def __init__(self, id: str, comments: str = None):
+        super().__init__(id, comments)
+
+
+class FeedbackFactory:
+
+    @classmethod
+    def create_feedback(_, id: str, comments: str = None) -> Feedback:
+
+        # Typecast id into str if it is not
+        if not isinstance(id, str):
+            id = str(id).upper()
+
+        # Summative feedback ID will start with S
+        if id[0] == "S":
+            return Summative(id, comments)
+
+        # Formative feedback ID will start with F
+        elif id[0] == "F":
+            return Formative(id, comments)

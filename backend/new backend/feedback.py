@@ -1,42 +1,55 @@
-import json 
-from collections import namedtuple
+import typing
+from mongodb import MongoDB
+from mapper import Mapper
 from abc import ABC
+
 
 class Feedback(ABC):
 
     id: int
-    comments: str
     type: str
+    comments: str
 
-    def __init__(self, feedbackDict:dict):
-        
-        FeedbackTuple = json.loads(feedbackDict, object_hook =
-               lambda d : namedtuple('x', d.keys()) (*d.values())) 
-    
-        self.id = FeedbackTuple.id  
-        self.comments = FeedbackTuple.comments
-        self.type = FeedbackTuple.type
+    def __init__(self, id: int, comments: str, type: str, feedback_dict: typing.Dict = None):
+        if feedback_dict:
+            self.id = feedback_dict["id"]
+            self.type = feedback_dict["type"]
+            self.comments = feedback_dict["comments"]
 
-#     def getId(self) -> id:
-#         pass
+        else:
+            self.id = id
+            self.type = type
+            self.comments = comments
 
-#     def getComments(self) -> str:
-#         pass
+    def to_dict(self):
+        return {"_id": self.id, "type": self.type, "comments": self.comments}
 
-#     def getMarks(self) -> int:
-#         pass
 
-#     def setComments(self, comments: str) -> None:
-#         pass
+class Summative(Feedback, Mapper):
 
-#     def setMarks(self, marks: int) -> None:
-#         pass
+    def select(self):
+        pass
 
-#     def setType(self, type: str) -> None:
-#         pass
+    def insert(self):
+        pass
 
-# class Summative(Feedback):
-#     pass
+    def update(self):
+        pass
 
-# class Formative(Feedback):
-#     pass
+    def delete(self):
+        pass
+
+
+class Formative(Feedback, Mapper):
+
+    def select(self):
+        pass
+
+    def insert(self):
+        pass
+
+    def update(self):
+        pass
+
+    def delete(self):
+        pass

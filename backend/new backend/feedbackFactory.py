@@ -1,11 +1,13 @@
 from abc import ABC
 import createFeedback
+
+
 class FeedbackFactory:
 
     def __init__(self):
         pass
 
-#Idk if viewing of feedback is done by factory
+# Idk if viewing of feedback is done by factory
     # @classmethod
     # def viewFeedback(cls, feedbackObject):
 
@@ -23,7 +25,8 @@ class FeedbackFactory:
     #     return None
 
     @classmethod
-    def makeFeedback(cls, feedbackObject): # I presume an object will be passed in here or soemthing
+    # I presume an object will be passed in here or soemthing
+    def makeFeedback(cls, feedbackObject):
 
         if (feedbackObject.type.lower() == "summative"):
             # print(feedbackObject)
@@ -32,6 +35,5 @@ class FeedbackFactory:
         if (feedbackObject.type.lower() == "formative"):
             # print(feedbackObject)
             return createFeedback.FormativeFeedback(feedbackObject)
-
 
         return None

@@ -1,6 +1,7 @@
 from abc import ABC
 import typing
 
+
 class User(ABC):
 
     id: int
@@ -12,7 +13,7 @@ class User(ABC):
     def __init__(self):
         pass
 
-    def getId(self) -> id:
+    def getId(self) -> int:
         pass
 
     def getName(self) -> str:
@@ -27,11 +28,13 @@ class User(ABC):
     def getModules(self) -> typing.List:
         pass
 
+
 class Student(User):
     """
         Help me implement this according to the class diagram. Inherit from the User abstract class
     """
     pass
+
 
 class Professor(User):
     """

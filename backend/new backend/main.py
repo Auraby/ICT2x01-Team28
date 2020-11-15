@@ -12,7 +12,7 @@ inputFeedback2 = '{"id" : 1, "comments" : "hello world", "type" : "formative"}'
 
 #################################### Initialising dummy data for all modules ####################################
 
-#escaping my double quotes multiple times cause....json ¯\_(ツ)_/¯
+# escaping my double quotes multiple times cause....json ¯\_(ツ)_/¯
 moduleInput1 = '{"code": "ICT 2x01", "name": "Software Engineering", "description": "Best Mod", "professors": ["Alex \\"last min\\" surname", "Ah quah"], "students": ["Max Lao da", "Fake oscp gene", "Hardy mirza"]}'
 moduleInput2 = '{"code": "ICT 2901", "name": "Career and Professional Development ", "description": "Rubbish Mod", "professors": ["Lao \\"If not as good as i write your resume\\" zha bor", "blazer lover prof"], "students" : ["Max \\"tio boh?\\" Moon", "still tilted af gene"]}'
 
@@ -43,7 +43,7 @@ mod2 = module.Module(moduleInput2)
 #################################### Converting component & subcomponent dict to an object ####################################
 
 com11 = component.Component(componentInput11)
-com12 = component.Component(componentInput12) 
+com12 = component.Component(componentInput12)
 
 subCom11 = component.Component(subComponentInput11)
 subCom12 = component.Component(subComponentInput12)
