@@ -101,6 +101,9 @@ class Assessment(Component):
         if not isinstance(subcomponent, Subcomponent):
             return False
 
+        if subcomponent in self.subcomponents:
+            return False
+
         self.subcomponents.append(subcomponent)
         return True
 
@@ -139,9 +142,9 @@ class ComponentFactory:
             return Subcomponent(component_id)
 
     @classmethod
-    def new_component(_, is_assessment) -> Component:
+    def new_assessment(_) -> Assessment:
+        return Assessment()
 
-        if is_assessment:
-            return Assessment()
-
-        return Subcomponent()
+    @classmethod
+    def new_subcomponent(_) -> Subcomponent:
+        return Subcomponent

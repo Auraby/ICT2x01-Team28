@@ -3,9 +3,10 @@ from .mapper import IMapper
 from .database import *
 from .component import *
 from abc import ABC
+from pydantic.main import BaseModel
 
 
-class Module(ABC, IMapper):
+class Module(ABC, IMapper, BaseModel):
 
     module_code: str
     module_name: str

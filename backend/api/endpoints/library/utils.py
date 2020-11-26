@@ -26,3 +26,7 @@ def valid_subcomponent_id(subcomponent_id: str):
         return False
 
     return True
+
+
+def valid_component_id(component_id: str):
+    return valid_assessment_id(component_id) or valid_subcomponent_id(component_id)
