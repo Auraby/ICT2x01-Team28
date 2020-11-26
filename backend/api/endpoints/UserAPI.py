@@ -1,25 +1,36 @@
 from fastapi import APIRouter
-from boto3.dynamodb.conditions import Key, Attr
-from pydantic import BaseModel
-import typing
-import boto3
-import time
-import uuid
-from .library.component import *
+from .library.user import *
+from .library.utils import *
 
 router = APIRouter()
 
 
 @router.get("/user/login")
 async def login(email: str, password: str):
-    pass
+    user = UserFactory.create_user(email)
+    if (not user.find()):
+        return {"msg": "Invalid email"}
+
+    if (not password == user.password):
+        return {"msg": "Invalid password"}
+
+    return {"msg": "OK"}
 
 
 @router.post("/user/register")
-async def register(email: str, password: str, cfm_passwrd: str):
-    pass
+async def register(data: User):
+    user = UserFactory.create_user(data.email)
+
+    if (user.find()):
+        return {"msg": "Email already in use"}
+
+    user.name = data.name
+    user.passowrd = data.password
+    user.save()
+
+    return {"msg": "OK"}
 
 
 @router.get("/user/modules")
-async def user_modules(email: str):
+async def get_user_modules(email: str):
     pass

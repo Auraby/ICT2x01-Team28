@@ -1,5 +1,4 @@
 from fastapi import APIRouter
-import uuid
 from .library.utils import *
 from .library.module import *
 from .library.component import *
@@ -26,8 +25,7 @@ async def new_assesment_for_module(module_code: str):
     if (not valid_module_code(module_code)):
         return {"msg": "Invalid module_code"}
 
-    assessment_id = "A" + uuid.uuid1()
-    new_assessment = Assessment(id=assessment_id)
+    new_assessment = ComponentFactory.new_assessment()
     target_module = Module(module_code=module_code)
 
     if not target_module.find():

@@ -1,18 +1,20 @@
-from abc import ABC, abstractmethod
-from mapper import IMapper
+from abc import ABC
+from .mapper import IMapper
+from pydantic.main import BaseModel
+from .database import *
 import typing
-import database
 
 
-class User(ABC, IMapper):
+class User(ABC, IMapper, BaseModel):
 
     """
     Fields
     """
-    id: str
+    id: typing.Optional[str]
+    password: str
     name: str
     email: str
-    role: str
+    role: typing.Optional[str]
 
     def __init__(self, id: str, role: str):
         self.id = id
