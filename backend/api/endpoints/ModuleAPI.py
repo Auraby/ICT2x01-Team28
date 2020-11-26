@@ -6,17 +6,18 @@ from .library.component import *
 router = APIRouter()
 
 
-@router.get("/module/new")
-async def new_module(module_code: str, module_name: str):
-    if (not valid_module_code(module_code) or not module_name):
-        return {"msg": "Invalid module code and/or module name"}
+@router.post("/module/new")
+async def new_module(data: Module):
+    if (not valid_module_code(data.module_code)):
+        return {"msg": "Invalid module code"}
 
-    new_module = Module(module_code=module_code, module_name=module_name)
+    if (not data.module_name):
+        return {"msg": "Invalid module name"}
 
-    if new_module.find():
-        return {"msg": "Module with this module code already exists"}
+    if (data.find()):
+        return {"msg": f"Module with {data.module_code} already exists"}
 
-    new_module.save()
+    data.save()
     return {"msg": "OK"}
 
 

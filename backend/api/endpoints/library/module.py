@@ -10,7 +10,7 @@ class Module(ABC, IMapper, BaseModel):
 
     module_code: str
     module_name: str
-    assessments: typing.List[Assessment]
+    assessments: typing.Optional[typing.List[Assessment]]
 
     def __init__(self, module_code: str, module_name: str = None, assessments: typing.List[Assessment] = None):
         self.module_code = module_code
