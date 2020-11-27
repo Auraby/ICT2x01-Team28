@@ -47,8 +47,8 @@ export default class AddAssessment extends Component {
 					<label className="display-1 text-white mb-4">Add Assessment</label>
 					<Dropdown value={this.state.selectedModule} name="selectedModule" label="Select Module" options={this.state.modules} onChange={this.moduleChange} />
 					<Input disabled={this.state.disableInputs} name="name" type="text" label="Assessment Name" onChange={this.handleChange} />
-					<Input disabled={this.state.disableInputs} name="date" type="text" label="Assessment Date" onChange={this.handleChange} />
-					<Input disabled={this.state.disableInputs} name="maxMarks" type="text" label="Max Marks" onChange={this.handleChange} />
+					<Input disabled={this.state.disableInputs} name="date" type="date" label="Assessment Date" onChange={this.handleChange} />
+					<Input disabled={this.state.disableInputs} name="maxMarks" type="number" min="0" max="100" label="Max Marks" onChange={this.handleChange} />
 					<Input disabled={this.state.disableInputs} name="weightage" type="text" label="Weightage" onChange={this.handleChange} />
 					<div className="flexbox">
 						<button type="submit" className="btn btn-danger">

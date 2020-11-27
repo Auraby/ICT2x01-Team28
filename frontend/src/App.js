@@ -20,6 +20,7 @@ import SelectAssessment from "./pages/SelectAssessment";
 import SelectSubcomponent from "./pages/SelectSubcomponent";
 import DeleteFeedback from "./pages/DeleteFeedback";
 import ViewModule from "./pages/ViewModule";
+import ProfessorHome from "./pages/ProfessorHome";
 import { MyProvider } from "./context/myContext";
 
 const App = () => {
@@ -34,6 +35,7 @@ const App = () => {
 						<Switch>
 							<Route exact path="/" component={StudentHome} />
 							<Route exact path="/home" component={StudentHome} />
+							<Route exact path="/professorhome" component={ProfessorHome} />
 							<Route exact path="/view/module/:id" component={ViewModule} />
 							<Route exact path="/login" component={Login} />
 							<Route exact path="/logout" component={Logout} />

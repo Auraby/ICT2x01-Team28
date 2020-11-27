@@ -81,7 +81,7 @@ export default class AddSubcomponent extends Component {
 					<Input
 						disabled={this.state.disableInputs}
 						name="maxMarks"
-						type="text"
+						type="number"
 						label="Max Marks"
 						onChange={this.handleChange}
 					/>

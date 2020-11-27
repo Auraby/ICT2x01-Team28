@@ -104,6 +104,13 @@ export default class AddFeedback extends Component {
 								onChange={this.selectChange}
 							/>
 						</div>
+						<Input
+							disabled={this.state.disableInputs}
+							name="maxMarks"
+							type="number"
+							label="Max Marks"
+							onChange={this.handleChange}
+						/>
 						<DropdownWithObject
 							value={this.state.commentType}
 							name="commentType"

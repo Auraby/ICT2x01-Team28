@@ -33,8 +33,8 @@ export default class ViewAssessment extends Component {
 				{
 					id: "1902619",
 					name: "Max",
-					marks: "21/100",
-					comments: "what the fuck have you been doing",
+					marks: "98/100",
+					comments: "Good job",
 				},
 				{
 					id: "1902620",

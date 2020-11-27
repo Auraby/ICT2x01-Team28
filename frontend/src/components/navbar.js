@@ -78,6 +78,7 @@ class Navbar extends Component {
 		const feedbackDropdown = [
 			{ title: "Add feedback", href: "/add/feedback/1" },
 			{ title: "View feedback", href: "/view/feedback/1" },
+			{ title: "Edit feedback", href: "/edit/feedback/1" },
 		];
 
 		return (
@@ -93,7 +94,7 @@ class Navbar extends Component {
 						<NavItems options={navItems} path={this.props.location.pathname} />
 						<NavbarDropdown href="/view/assessment" options={assessmentDropdown} title="Assessment" />
 						<NavbarDropdown href="/view/subcomponent" options={subcomponentDropdown} title="Subcomponent" />
-						<NavbarDropdown href="/view/feedback" options={feedbackDropdown} title="Feedback" />
+						<NavbarDropdown href="/view/feedback/1" options={feedbackDropdown} title="Feedback" />
 					</ul>
 					<ul className="ml-auto navbar-nav">
 						<li className="nav-item">
