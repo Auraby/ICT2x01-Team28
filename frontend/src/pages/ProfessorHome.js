@@ -25,6 +25,8 @@ export default class ProfessorHome extends Component {
 			this.setState({
 				data: res.data,
 			});
+
+			console.log(res.data);
 		});
 	}
 
@@ -85,6 +87,8 @@ export default class ProfessorHome extends Component {
 					<button className="btn btn-primary">Create assessment</button>
 				</div>
 			);
+		} else if (item.type === "Subcomponent") {
+			page = <ProfessorAssessment item={item} />;
 		}
 
 		return (

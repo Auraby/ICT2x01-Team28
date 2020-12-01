@@ -6,7 +6,7 @@ from .library.utils import *
 router = APIRouter()
 
 
-@router.post("/component/subcomponent/new", description="Adds a subcomponent to an assessment", summary="Adds a subcomponent to an assessment")
+@router.post("/component/subcomponent/add", description="Adds a subcomponent to an assessment", summary="Adds a subcomponent to an assessment")
 async def add_subcomponent_to_assessment(assessment_id: str, subcomponent: Subcomponent):
     target_assessment = ComponentFactory.create_component(assessment_id)
 

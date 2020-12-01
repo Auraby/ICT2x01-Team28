@@ -70,7 +70,9 @@ class Module(ABC, IMapper, BaseModel):
 
     def to_tree(self) -> Dict:
         tree = {
-            "name": self.module_code.upper(),
+            "toggled": True,
+            "name":  self.module_code,
+            "module_code": self.module_code,
             "module_name": self.module_name,
             "type": "Module"
         }

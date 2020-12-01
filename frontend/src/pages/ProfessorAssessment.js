@@ -41,6 +41,11 @@ export default class ProfessorAssessment extends Component {
 							</a>
 						</li>
 						<li className="nav-item">
+							<a href="#" data-value="Feedback" onClick={this.changePage} className={"tab-item nav-link px-4 " + (this.state.page === "Feedback" ? "active" : "")}>
+								Enter feedback
+							</a>
+						</li>
+						<li className="nav-item">
 							<a href="#" data-value="Add" onClick={this.changePage} className={"tab-item nav-link px-4 " + (this.state.page === "Add" ? "active" : "")}>
 								Add subcomponents
 							</a>
@@ -54,6 +59,8 @@ export default class ProfessorAssessment extends Component {
 					<AssessmentForm item={item} disabled={false} />
 				) : this.state.page === "Marks" ? (
 					<AssessmentEnterMarks item={item} />
+				) : this.state.page === "Feedback" ? (
+					<AssessmentEnterFeedback item={item} />
 				) : (
 					<AssessmentAddSubcomponent item={item} />
 				)}
@@ -71,6 +78,8 @@ class AssessmentForm extends React.Component {
 	render() {
 		const item = this.props.item;
 
+		const disableWeightage = "children" in item ? true : this.props.disabled;
+
 		return (
 			<>
 				<div className="form-group">
@@ -79,11 +88,11 @@ class AssessmentForm extends React.Component {
 				</div>
 				<div className="form-group">
 					<label className="">Max Marks:</label>
-					<input disabled={this.props.disabled} value={item.max_marks} className="form-control"></input>
+					<input disabled={disableWeightage} value={item.max_marks} className="form-control"></input>
 				</div>
 				<div className="form-group">
 					<label className="">Weightage:</label>
-					<input disabled={this.props.disabled} value={item.weightage} className="form-control"></input>
+					<input disabled={disableWeightage} value={item.weightage} className="form-control"></input>
 				</div>
 				<div className="form-group">
 					<label className="">End Date:</label>
@@ -176,10 +185,44 @@ class AssessmentAddSubcomponent extends React.Component {
 
 		return (
 			<div className="fb fb-col fcc" style={{ height: "100%" }}>
-				<label>
-					<h3>No subcomponents for this assessment</h3>
+				<label className="text-center">
+					<h3>If you create subcomponents, you can no longer set max marks and weightage by assessment</h3>
 				</label>
 				<button className="btn btn-primary">Create subcomponents</button>
+			</div>
+		);
+	}
+}
+
+class AssessmentEnterFeedback extends React.Component {
+	static contextType = MyContext;
+	constructor(props) {
+		super(props);
+
+		this.state = {
+			feedbackType: "Formative",
+		};
+	}
+
+	componentDidMount() {}
+
+	handleChange = (event) => {
+		this.setState({
+			[event.target.name]: event.target.value,
+		});
+	};
+
+	render() {
+		const item = this.props.item;
+
+		return (
+			<div className="fb fb-col" style={{ height: "100%" }}>
+				<div>
+					<select className="form-control" onChange={this.handleChange} name="feedbackType">
+						<option value="Summative">Summative</option>
+						<option value="Formative">Formative</option>
+					</select>
+				</div>
 			</div>
 		);
 	}

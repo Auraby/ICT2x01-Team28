@@ -6,7 +6,6 @@ from typing import *
 from .database import *
 import time
 import uuid
-from boto3.dynamodb.conditions import Key, Attr
 from decimal import Decimal
 
 
@@ -21,11 +20,6 @@ class Component(ABC, BaseModel, IMapper):
     @abstractmethod
     def __eq__(self, other: Component):
         pass
-        """ if (not isinstance(other, Component)):
-            return False
-
-        print(self.assessment_id, other.assessment_id)
-        return self.assessment_id == other.assessment_id """
 
     def to_dict(self):
         return {
@@ -36,13 +30,8 @@ class Component(ABC, BaseModel, IMapper):
             "weightage": Decimal(self.weightage),
         }
 
-    def delete(self):
-        return dynamodb_delete(self.to_dict(), "ict2x01_module")
-
-
-"""
-    Subcomponent will be our leaf class
-"""
+    def get_feedback(self, component_id):
+        return dynamodb_query({"component_id": component_id}, "ict2x01_feedback", "component_id-index")
 
 
 class Subcomponent(Component):
@@ -81,10 +70,11 @@ class Subcomponent(Component):
     def save(self):
         return dynamodb_insert(self.to_dict(), "ict2x01_subcomponents")
 
+    def delete(self):
+        pass
 
-"""
-    Assessment will be our branch
-"""
+    def get_feedback(self):
+        return super().get_feedback(self.subcomponent_id)
 
 
 class Assessment(Component):
@@ -134,8 +124,13 @@ class Assessment(Component):
             for subcomponent_id in result["subcomponents"]:
                 subcomponent = ComponentFactory.create_component(
                     subcomponent_id)
+                self.weightage = 0
+                self.max_marks = 0
+
                 if (subcomponent.find()):
                     self.subcomponents.append(subcomponent)
+                    self.max_marks += subcomponent.max_marks
+                    self.weightage += subcomponent.weightage
 
             return True
 
@@ -161,39 +156,24 @@ class Assessment(Component):
         self.assessment_id = "A" + str(uuid.uuid4()).upper()
 
     def to_tree(self) -> typing.Dict:
-        tree = {
-            "name": self.name,
-            "end_date": self.end_date,
-            "max_marks": self.max_marks,
-            "weightage": self.weightage,
-            "create_date": self.create_date,
-            "assessment_id": self.assessment_id,
-            "type": "Assessment"
-        }
+        tree = self.to_dict()
+        tree["type"] = "Assessment"
+        tree.pop("subcomponents")
 
         if self.subcomponents:
-            tree["children"] = [s.to_tree for s in self.subcomponents]
+            tree["children"] = []
+            for s in self.subcomponents:
+                child_dict = s.to_dict()
+                child_dict["type"] = "Subcomponent"
+                tree["children"].append(child_dict)
 
         return tree
 
     def save(self):
         return dynamodb_insert(self.to_dict(), "ict2x01_assessments")
 
-    """ def remove_subcomponent(self, subcomponent: Subcomponent):
-        if subcomponent in self.subcomponents:
-            self.subcomponents.remove(subcomponent)
-
-    def get_weightage(self) -> float:
-        return sum(sc.weightage for sc in self.subcomponents)
-
-    def get_max_marks(self) -> int:
-        return sum(sc.max_marks for sc in self.subcomponents)
-
-    def get_remaining_weightage(self) -> float:
-        return self.weightage - self.get_weightage()
-
-    def get_remaining_max_marks(self) -> int:
-        return self.max_marks - self.get_max_marks() """
+    def get_feedback(self):
+        return super().get_feedback(self.assessment_id)
 
 
 class ComponentFactory:

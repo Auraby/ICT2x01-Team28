@@ -49,10 +49,7 @@ class User(ABC, IMapper, BaseModel):
             "children": []
         }
 
-        print(self.modules)
-
         for module_code in self.modules:
-            print(module_code)
             module = Module(module_code=module_code)
             module.find()
             tree["children"].append(module.to_tree())
@@ -73,7 +70,11 @@ class UserFactory:
     @classmethod
     def create_user(_, email: str) -> User:
 
-        user_id = email[0:email.index("@")]
+        if "@" in email:
+            user_id = email[0:email.index("@")]
+
+        else:
+            user_id = email
 
         if user_id == "A":
             return Professor(user_id=user_id, email=email, role="professor")
