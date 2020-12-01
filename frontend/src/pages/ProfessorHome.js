@@ -3,6 +3,7 @@ import { MyContext } from "../context/myContext";
 import { Treebeard } from "react-treebeard";
 import ProfessorAssessment from "./ProfessorAssessment";
 import axios from "axios";
+import ProfessorSubcomponent from "./ProfessorSubcomponent";
 
 export default class ProfessorHome extends Component {
 	static contextType = MyContext;
@@ -90,7 +91,7 @@ export default class ProfessorHome extends Component {
 				</div>
 			);
 		} else if (item.type === "Subcomponent") {
-			page = <ProfessorAssessment item={item} refresh={this.refreshData} />;
+			page = <ProfessorSubcomponent item={item} refresh={this.refreshData} />;
 		}
 
 		return (

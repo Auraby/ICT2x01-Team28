@@ -10,12 +10,8 @@ import uuid
 class Feedback(ABC, IMapper, BaseModel):
 
     feedback_id: Optional[str]
-    commments: Optional[str]
+    comments: Optional[str]
     component_id: Optional[str]
-
-    @abstractmethod
-    def new(self):
-        pass
 
     def __eq__(self, other: Feedback):
         if (not isinstance(other, Feedback)):
@@ -41,27 +37,25 @@ class Feedback(ABC, IMapper, BaseModel):
         pass
 
 
-class Formative(ABC):
-    def new(self, component_id: str):
-        self.feedback_id = "SUM" + str(uuid.uuid4())
-        self.component_id = component_id
+class Formative(Feedback):
+    pass
 
 
-class Summative(ABC):
-    def new(self, component_id: str):
-        self.feedback_id = "FOR" + str(uuid.uuid4())
-        self.component_id = component_id
+class Summative(Feedback):
+    def save(self):
+        for feedback in dynamodb_scan({"component_id": self.component_id}, "ict2x01_feedbacks"):
+            if feedback["feedback_id"][0:3] == "SUM":
+                self.feedback_id = feedback["feedback_id"]
+
+        super().save()
 
 
 class FeedbackFactory:
 
     @classmethod
-    def create_feedback(_, feedback_id: str = None, comments: str = None) -> Feedback:
+    def create_feedback(_, component_id: str, comments: str, summative=False):
 
-        # Summative feedback ID will start with S
-        if feedback_id[0:3] == "SUM":
-            return Summative(feedback_id, comments)
+        if summative:
+            return Summative(feedback_id="SUM" + str(uuid.uuid4()).upper(), component_id=component_id, comments=comments)
 
-        # Formative feedback ID will start with F
-        elif feedback_id[0:3] == "FOR":
-            return Formative(feedback_id, comments)
+        return Formative(feedback_id="FOR" + str(uuid.uuid4()).upper(), component_id=component_id, comments=comments)

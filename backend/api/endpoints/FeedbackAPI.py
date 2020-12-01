@@ -9,14 +9,8 @@ router = APIRouter()
 
 
 @router.patch("/feedback/update")
-async def update_feedback(feedback_id: str, new_feedback: Feedback):
-    old_feedback = FeedbackFactory.create_feedback(feedback_id)
-
-    if (not old_feedback.find()):
-        return {"msg": "Invalid feedback id"}
-
-    old_feedback.comments = new_feedback.comments
-    old_feedback.save()
+async def update_feedback(new_feedback: Feedback):
+    new_feedback.save()
 
     return {"msg": "OK"}
 
@@ -33,14 +27,16 @@ async def delete_feedback_from_component(feedback_id: str):
 
 
 @router.post("/feedback/add")
-async def add_feedback_to_component(component_id: str, feedback: Feedback):
+async def add_feedback_to_component(component_id: str, comments: str, isSummative: bool):
     component = ComponentFactory.create_component(component_id)
 
     if (not component.find()):
         return {"msg": "Invalid component id"}
 
-    Feedback.new(component_id)
-    Feedback.save()
+    feedback = FeedbackFactory.create_feedback(
+        component_id, comments, isSummative)
+
+    feedback.save()
     return {"msg": "OK"}
 
 
@@ -51,4 +47,16 @@ async def get_feedback_for_component(component_id: str):
     if (not component.find()):
         return {"msg": "Invalid component id"}
 
-    return dynamodb_query({"component_id": component_id}, "ict2x01_feedbacks", "component_id-index")
+    result = {}
+
+    for feedback in dynamodb_query({"component_id": component_id}, "ict2x01_feedbacks", "component_id-index"):
+        if feedback["feedback_id"][0:3] == "SUM":
+            result["summative"] = feedback
+
+        else:
+            if not "formative" in result:
+                result["formative"] = []
+
+            result["formative"].append(feedback)
+
+    return result

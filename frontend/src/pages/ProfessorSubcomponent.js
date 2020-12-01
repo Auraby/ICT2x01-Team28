@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { MyContext } from "../context/myContext";
 import axios from "axios";
 
-export default class ProfessorAssessment extends Component {
+export default class ProfessorSubcomponent extends Component {
 	static contextType = MyContext;
 	constructor(props) {
 		super(props);
@@ -45,31 +45,26 @@ export default class ProfessorAssessment extends Component {
 								Enter feedback
 							</a>
 						</li>
-						<li className="nav-item">
-							<a href="#" data-value="Add" onClick={this.changePage} className={"tab-item nav-link px-4 " + (this.state.page === "Add" ? "active" : "")}>
-								Add subcomponents
-							</a>
-						</li>
 					</ul>
 				</div>
 
 				{this.state.page === "View" ? (
-					<AssessmentForm item={item} disabled={true} refresh={this.props.refresh} />
+					<SubcomponentForm item={item} disabled={true} refresh={this.props.refresh} />
 				) : this.state.page === "Edit" ? (
-					<AssessmentForm item={item} disabled={false} refresh={this.props.refresh} />
+					<SubcomponentForm item={item} disabled={false} refresh={this.props.refresh} />
 				) : this.state.page === "Marks" ? (
-					<AssessmentEnterMarks item={item} />
+					<SubcomponentEnterMarks item={item} />
 				) : this.state.page === "Feedback" ? (
-					<AssessmentEnterFeedback item={item} />
+					<SubcomponentEnterFeedback item={item} />
 				) : (
-					<AssessmentAddSubcomponent item={item} />
+					<></>
 				)}
 			</div>
 		);
 	}
 }
 
-class AssessmentForm extends React.Component {
+class SubcomponentForm extends React.Component {
 	static contextType = MyContext;
 	constructor(props) {
 		super(props);
@@ -122,7 +117,7 @@ class AssessmentForm extends React.Component {
 		return (
 			<>
 				<div className="form-group">
-					<label className="">Assessment Name:</label>
+					<label className="">Subcomponent Name:</label>
 					<input onChange={this.handleChange} name="name" value={this.state.name} disabled={this.props.disabled} className="form-control"></input>
 				</div>
 				<div className="form-group">
@@ -151,7 +146,7 @@ class AssessmentForm extends React.Component {
 	}
 }
 
-class AssessmentEnterMarks extends React.Component {
+class SubcomponentEnterMarks extends React.Component {
 	static contextType = MyContext;
 	constructor(props) {
 		super(props);
@@ -164,8 +159,6 @@ class AssessmentEnterMarks extends React.Component {
 
 	componentDidMount() {
 		const apiUrl = `${this.context.apiUrl}/module/students/get?module_code=${this.props.item.module_code}`;
-
-		console.log(apiUrl);
 
 		axios.get(apiUrl).then((res) => {
 			this.setState({
@@ -241,56 +234,19 @@ class AssessmentEnterMarks extends React.Component {
 	}
 }
 
-class AssessmentAddSubcomponent extends React.Component {
-	static contextType = MyContext;
-	constructor(props) {
-		super(props);
-	}
-
-	componentDidMount() {}
-
-	render() {
-		const item = this.props.item;
-
-		return (
-			<div className="fb fb-col fcc" style={{ height: "100%" }}>
-				<label className="text-center">
-					<h3>If you create subcomponents, you can no longer set max marks and weightage by assessment</h3>
-				</label>
-				<button className="btn btn-primary">Create subcomponents</button>
-			</div>
-		);
-	}
-}
-
-class AssessmentEnterFeedback extends React.Component {
+class SubcomponentEnterFeedback extends React.Component {
 	static contextType = MyContext;
 	constructor(props) {
 		super(props);
 
 		this.state = {
 			feedbackType: "Summative",
-			formative: [],
-			summative: null,
-			summativeComments: "",
 		};
 	}
 
 	componentDidMount() {
-		const apiUrl = `${this.context.apiUrl}/feedback/get?component_id=${this.props.item.assessment_id}`;
-
-		axios.get(apiUrl).then((res) => {
-			this.setState(
-				{
-					formative: res.data.formative,
-					summative: res.data.summative,
-					summativeComments: res.data.summative.comments,
-				},
-				() => {
-					console.log(this.state);
-				}
-			);
-		});
+		const item = this.props.item;
+		const apiUrl = `${this.context.apiUrl}/feedback/get`;
 	}
 
 	handleChange = (event) => {
@@ -300,19 +256,9 @@ class AssessmentEnterFeedback extends React.Component {
 	};
 
 	updateSummativeComment = (event) => {
-		this.setState(
-			{
-				summativeComments: event.currentTarget.value,
-			},
-			() => {
-				const apiUrl = `${this.context.apiUrl}/feedback/update`;
-				axios.patch(apiUrl, {
-					component_id: this.state.summative.component_id,
-					feedback_id: this.state.summative.feedback_id,
-					comments: this.state.summativeComments,
-				});
-			}
-		);
+		this.setState({
+			summativeComment: event.currentTarget.value,
+		});
 	};
 
 	render() {
@@ -326,13 +272,7 @@ class AssessmentEnterFeedback extends React.Component {
 						<option value="Formative">Formative</option>
 					</select>
 				</div>
-				{this.state.feedbackType === "Summative" ? (
-					<div>
-						<textarea value={this.state.summativeComments} onChange={this.updateSummativeComment} style={{ width: "100%" }} />
-					</div>
-				) : (
-					<></>
-				)}
+				<div>{this.state.feedbackType === "Summative" ? <textarea value={this.state.summativeComment} onChange={this.updateSummativeComment} style={{ width: "100%" }} /> : <></>}</div>
 			</div>
 		);
 	}

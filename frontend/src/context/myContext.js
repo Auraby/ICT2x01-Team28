@@ -17,6 +17,7 @@ export class MyProvider extends React.Component {
 			user_id: "",
 			modules: [],
 			apiUrl: "http://localhost:8000",
+			/* apiUrl: "https://api.ict2x01.xxhamster.org", */
 		};
 	}
 

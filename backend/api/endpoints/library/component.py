@@ -171,6 +171,7 @@ class Assessment(Component):
             for s in self.subcomponents:
                 child_dict = s.to_dict()
                 child_dict["type"] = "Subcomponent"
+                child_dict["module_code"] = self.module_code
                 tree["children"].append(child_dict)
 
         return tree
