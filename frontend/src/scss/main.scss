@@ -98,6 +98,14 @@ $nav-tabs-link-active-border-color: #1caf9a;
 $table-head-color: $white;
 $table-head-bg: $white;
 
+/* Nav tabs settings */
+$nav-tabs-border-color: 1px solid transparent;
+$nav-tabs-border-width: 3px;
+$nav-tabs-link-hover-border-color: 1px solid transparent;
+$nav-tabs-link-active-color: $primary-color;
+$nav-tabs-link-active-bg: lighten($secondary-color, 7.5%);
+$nav-tabs-link-active-border-color: transparent;
+
 /* Override default theme colors */
 $theme-colors: (
 	primary: $primary-color,
@@ -126,6 +134,29 @@ body {
 	width: 100%;
 	margin: 0;
 	overflow-x: hidden;
+}
+
+label {
+	user-select: none;
+}
+
+.tab-item {
+	color: $default-text-color;
+}
+
+.tab-item.active {
+	border-top: 1px solid $primary-color !important;
+	border-left: 1px solid $primary-color !important;
+	border-right: 1px solid $primary-color !important;
+	color: lighten($default-text-color, 25%) !important;
+}
+
+.tab-item:hover {
+	color: lighten($default-text-color, 25%);
+}
+
+.css-f91fgu {
+	background-color: $secondary-color !important;
 }
 
 @mixin flexbox-center {

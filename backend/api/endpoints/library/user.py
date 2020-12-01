@@ -1,68 +1,82 @@
+from __future__ import annotations
 from abc import ABC
 from .mapper import IMapper
 from pydantic.main import BaseModel
 from .database import *
-import typing
+from .module import *
+from typing import *
 
 
 class User(ABC, IMapper, BaseModel):
 
-    """
-    Fields
-    """
-    id: typing.Optional[str]
-    password: str
-    name: str
-    email: str
-    role: typing.Optional[str]
+    user_id: str
+    role: str
+    name: Optional[str]
+    email: Optional[str]
+    password: Optional[str]
+    modules: List = []
 
-    def __init__(self, id: str, role: str):
-        self.id = id
-        self.role = role
+    def add_module(self, module_code: str):
+        if module_code in self.modules:
+            return False
 
-    def to_dict(self) -> typing.Dict:
+        self.modules.append(module_code)
+        return True
+
+    def to_dict(self) -> Dict:
         return self.__dict__
 
     def save(self):
-        return database.insert(self.to_dict(), "ict2x01_users")
+        return dynamodb_insert(self.dict(), "ict2x01_users")
 
     def find(self) -> bool:
-        if (result := database.select({"id": self.id}, "ict2x01_users")):
+        if (result := dynamodb_select({"user_id": self.user_id}, "ict2x01_users")):
             self.name = result["name"]
             self.email = result["email"]
+            self.password = result["password"]
+            self.modules = result["modules"]
             return True
 
         return False
 
     def delete(self):
-        return database.delete(self.to_dict(), "ict2x01_users")
+        return dynamodb_delete(self.to_dict(), "ict2x01_users")
+
+    def to_tree(self):
+        tree = {
+            "name": self.email,
+            "toggled": True,
+            "children": []
+        }
+
+        print(self.modules)
+
+        for module_code in self.modules:
+            print(module_code)
+            module = Module(module_code=module_code)
+            module.find()
+            tree["children"].append(module.to_tree())
+
+        return tree
 
 
 class Student(User):
-
-    def __init__(self, id: str):
-        super().__init__(id, "student")
+    pass
 
 
 class Professor(User):
-
-    def __init__(self, id: str):
-        super().__init__(id, "professor")
+    pass
 
 
 class UserFactory:
 
     @classmethod
-    def create_user(_, id: str) -> User:
+    def create_user(_, email: str) -> User:
 
-        # Typecast id into str if it is not
-        if not isinstance(id, str):
-            id = str(id).upper()
+        user_id = email[0:email.index("@")]
 
-        # SIT staff IDs starts with A
-        if id[0] == "A":
-            return Professor(id)
+        if user_id == "A":
+            return Professor(user_id=user_id, email=email, role="professor")
 
-        # Default everything else to student
         else:
-            return Student(id)
+            return Student(user_id=user_id, email=email, role="student")

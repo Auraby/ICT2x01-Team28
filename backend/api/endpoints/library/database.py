@@ -1,5 +1,7 @@
 import typing
 import boto3
+from boto3.dynamodb.conditions import Key, Attr
+
 
 dynamodb = boto3.resource('dynamodb', region_name="ap-southeast-1")
 
@@ -20,6 +22,18 @@ def dynamodb_select(query: typing.Dict, table: str) -> typing.Dict:
         return result["Item"] if "Item" in result.keys() else {}
 
 
+def dynamodb_scan(query: typing.Dict, table_name: str) -> typing.List:
+    global dynamodb
+
+    if result := dynamodb.Table(table_name).scan(
+        Select="ALL_ATTRIBUTES",
+        ConsistentRead=False,
+        FilterExpression=Attr(list(query.keys())[0]).eq(
+            query[list(query.keys())[0]])
+    ):
+        return result["Items"] if "Items" in result.keys() else {}
+
+
 def dynamodb_insert(item: typing.Dict, table: str) -> typing.Dict:
     global dynamodb
 
@@ -37,3 +51,24 @@ def dynamodb_delete(item: typing.Dict, table: str) -> typing.Dict:
         ReturnConsumedCapacity="NONE",
         ReturnItemCollectionMetrics="NONE"
     )
+
+
+def dynamodb_query(query: typing.Dict, table_name: str, index_name: str = None) -> typing.List:
+    global dynamodb
+
+    if not index_name:
+        result = dynamodb.Table(table_name).query(
+            Select="ALL_ATTRIBUTES",
+            KeyConditionExpression=Key(list(query.keys())[0]).eq(
+                query[list(query.keys())[0]])
+        )
+
+    else:
+        result = dynamodb.Table(table_name).query(
+            IndexName=index_name,
+            Select="ALL_ATTRIBUTES",
+            KeyConditionExpression=Key(list(query.keys())[0]).eq(
+                query[list(query.keys())[0]])
+        )
+
+    return result["Items"] if "Items" in result.keys() else []

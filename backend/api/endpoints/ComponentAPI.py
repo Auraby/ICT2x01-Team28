@@ -1,37 +1,25 @@
 from fastapi import APIRouter
 from .library.component import *
+from .library.module import *
 from .library.utils import *
 
 router = APIRouter()
 
 
-@router.post("/component/assessment/new")
-async def new_assessment(data: Assessment):
-    assessment = ComponentFactory.new_assessment()
-    if (not assessment.update(data)):
-        return {"msg": "Something went wrong here"}
-
-    assessment.save()
-    return {"msg": "OK"}
-
-
-@router.post("/component/subcomponent/new")
-async def new_subcomponet(assessment_id: str, data: Subcomponent):
-    subcomponent = ComponentFactory.new_subcomponent()
+@router.post("/component/subcomponent/new", description="Adds a subcomponent to an assessment", summary="Adds a subcomponent to an assessment")
+async def add_subcomponent_to_assessment(assessment_id: str, subcomponent: Subcomponent):
     target_assessment = ComponentFactory.create_component(assessment_id)
 
     if (not target_assessment.find()):
-        return {"msg": "Invalid assessment id"}
-
-    if (not subcomponent.update(data)):
-        return {"msg": "Something went wrong here"}
+        return {"msg": "Invalid assessment id or module code"}
 
     if (not target_assessment.add_subcomponent(subcomponent)):
-        return {"msg": "Cannot add subcomponent to assessment"}
+        return {"msg": "Something went wrong here"}
 
     target_assessment.save()
     subcomponent.save()
-    return {"msg": "OK"}
+
+    return {"MSG": "OK"}
 
 
 @router.put("/component/update")

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import { Input } from "../components/input";
-import { Panel } from "../components/panel";
+import axios from "axios";
+import { Redirect } from "react-router-dom";
 import { MyContext } from "../context/myContext";
 
 export default class Login extends Component {
@@ -11,6 +11,7 @@ export default class Login extends Component {
 		this.state = {
 			email: "",
 			password: "",
+			redirect: false,
 		};
 	}
 
@@ -22,24 +23,73 @@ export default class Login extends Component {
 
 	handleSubmit = (event) => {
 		event.preventDefault();
-		this.context.login(this.state.email);
+
+		console.log(`${this.context.apiUrl}/user/login?email=${this.state.email}&password=${this.state.password}`);
+
+		axios.get(`${this.context.apiUrl}/user/login?email=${this.state.email}&password=${this.state.password}`).then((res) => {
+			if (res.data.msg !== "OK") {
+				this.context.warningToast(res.data.msg);
+			} else {
+				this.context.login(res.data.user);
+			}
+		});
 	};
 
 	render() {
-		return (
-			<Panel>
-				<form onSubmit={this.handleSubmit} className="fill-panel">
-					<label htmlFor="email" className="display-1 text-white text-center">
-						Login
-					</label>
-					<Input value={this.state.email} name="email" type="text" label="Email" onChange={this.handleChange} />
-					<Input value={this.state.password} name="password" type="password" label="Password" onChange={this.handleChange} />
+		if (this.context.state.role === "student") {
+			return <Redirect to="/home" />;
+		} else if (this.context.state.role === "professor") {
+			return <Redirect to="professorHome" />;
+		}
 
-					<button type="submit" className="btn btn-primary">
-						Login
-					</button>
-				</form>
-			</Panel>
+		return (
+			<div style={{ backgroundColor: "white", alignItems: "center", height: "100vh", overflowY: "hidden" }} className="fb fb-row">
+				<img className="" alt="banner" src={`${process.env.PUBLIC_URL}/img/banner.jpg`} />
+				<div className="fb fb-col p-5">
+					<div>
+						<img className="" alt="sit logo" src={`${process.env.PUBLIC_URL}/img/sitlogo.jpg`} />
+					</div>
+					<label className="mt-5">Sign in with your organizational account</label>
+					<div className="fb fb-col">
+						<input
+							onChange={this.handleChange}
+							value={this.state.email}
+							name="email"
+							style={{ backgroundColor: "white", color: "gray" }}
+							className="form-control my-1"
+							placeholder="someone@example.com"
+							type="text"
+						/>
+						<input
+							onChange={this.handleChange}
+							value={this.state.password}
+							name="password"
+							style={{ backgroundColor: "white", color: "gray" }}
+							className="form-control my-1"
+							placeholder="Password"
+							type="password"
+						/>
+						<div class="form-check">
+							<input type="checkbox" class="form-check-input" id="exampleCheck1" />
+							<label class="form-check-label" for="exampleCheck1">
+								Keep me signed in
+							</label>
+						</div>
+						<button className="btn mt-3" style={{ background: "#2672EC", color: "white" }} onClick={this.handleSubmit}>
+							Sign in
+						</button>
+						<p className="mt-4">
+							<strong>Staff</strong> can login using your Staff ID with <strong>@singaporetech.edu.sg</strong> as suffix (i.e A88xxx@singaporetech.edu.sg)
+						</p>
+						<p className="mt-4">
+							<strong>Students</strong> and <strong>Alumni</strong> can login using your Student ID with <strong>@sit.singaporetech.edu.sg</strong> as suffix (i.e.
+							12ABC888X@sit.singaporetech.edu.sg)
+						</p>
+						<p className="mt-3">Reset or change your password at the Self-Service Portal</p>
+						<p className="mt-3">For assistance, email us at IT Helpdesk and include the following details:</p>
+					</div>
+				</div>
+			</div>
 		);
 	}
 }

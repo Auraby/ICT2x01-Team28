@@ -27,17 +27,17 @@ const App = () => {
 	return (
 		<MyProvider>
 			<BrowserRouter>
-				<div className="hg-container">
-					<header>
-						<Navbar />
-					</header>
-					<main>
-						<Switch>
+				<Switch>
+					<Route exact path="/login" component={Login} />
+					<div className="hg-container">
+						<header>
+							<Navbar />
+						</header>
+						<main>
 							<Route exact path="/" component={StudentHome} />
 							<Route exact path="/home" component={StudentHome} />
 							<Route exact path="/professorhome" component={ProfessorHome} />
 							<Route exact path="/view/module/:id" component={ViewModule} />
-							<Route exact path="/login" component={Login} />
 							<Route exact path="/logout" component={Logout} />
 							<Route exact path="/upload" component={Upload} />
 							<Route exact path="/add/assessment" component={AddAssessment} />
@@ -52,10 +52,9 @@ const App = () => {
 							<Route exact path="/view/assessment" component={ViewAssessment} />
 							<Route exact path="/view/subcomponent" component={ViewSubcomponent} />
 							<Route exact path="/view/feedback/:id" component={ViewFeedback} />
-							<Route component={StudentHome} />
-						</Switch>
-					</main>
-				</div>
+						</main>
+					</div>
+				</Switch>
 			</BrowserRouter>
 		</MyProvider>
 	);

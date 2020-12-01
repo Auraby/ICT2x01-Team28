@@ -1,27 +1,15 @@
-.flexbox {
+.fb {
 	display: flex;
-	width: 100%;
-	height: 100%;
 }
 
-.flexbox.column {
-	flex-direction: column;
-}
-
-.flexbox.row {
-	flex-direction: row;
-}
-
-.flexbox {
-	justify-content: space-between;
-}
-
-.flexbox-center {
+.fb.fcc {
+	justify-content: center;
 	align-items: center;
 }
 
-.fb {
-	display: flex;
+.fb.fcs {
+	justify-content: center;
+	align-items: stretch;
 }
 
 .fb.fb-col {
@@ -30,6 +18,14 @@
 
 .fb.fb-row {
 	flex-direction: row;
+}
+
+.fb.fb-rrow {
+	flex-direction: row-reverse;
+}
+
+.fb.fb-rcol {
+	flex-direction: column-reverse;
 }
 
 .fb.fb-sb {
@@ -44,6 +40,14 @@
 	justify-content: space-evenly;
 }
 
+.fb.fb-stretch {
+	align-items: stretch;
+}
+
+.fb.fb-fs {
+	align-items: flex-start;
+}
+
 .fb.fb-center {
 	align-items: center;
 }
@@ -52,6 +56,30 @@
 	flex-wrap: wrap;
 }
 
-.fb .fb-fw {
+.fb.fb-fw {
 	width: 100%;
+}
+
+.fb.fb-fh {
+	height: 100%;
+}
+
+.fb .fg-1 {
+	flex-grow: 1;
+}
+
+.fb .fg-2 {
+	flex-grow: 2;
+}
+
+.fb .fg-3 {
+	flex-grow: 3;
+}
+
+.f-1 {
+	flex: 1;
+}
+
+.fbasis {
+	flex-basis: 100%;
 }

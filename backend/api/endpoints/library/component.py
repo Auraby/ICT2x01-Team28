@@ -1,61 +1,43 @@
 from __future__ import annotations
-from abc import ABC
+from abc import ABC, abstractmethod
 from pydantic.main import BaseModel
 from .mapper import IMapper
-import typing
+from typing import *
 from .database import *
-import datetime
 import time
 import uuid
+from boto3.dynamodb.conditions import Key, Attr
+from decimal import Decimal
 
 
 class Component(ABC, BaseModel, IMapper):
 
-    id: typing.Optional[str] = None
-    name: str
-    max_marks: int
+    name: Optional[str]
+    end_date: Optional[int]
+    max_marks: Optional[int]
+    weightage: Optional[float]
     create_date: int = int(time.time())
-    end_date: int
-    weightage: float
 
-    def __init__(self, name: str = None, max_marks: int = None, end_date: datetime.datetime = None, weightage: float = None):
-        self.name = name
-        self.max_marks = max_marks
-        self.end_date = end_date
-        self.create_date = int(time.time())
-        self.weightage = weightage
-
+    @abstractmethod
     def __eq__(self, other: Component):
-        if (not isinstance(other, Component)):
+        pass
+        """ if (not isinstance(other, Component)):
             return False
-        return self.id == other.id
 
-    def to_dict(self) -> typing.Dict:
-        return self.__dict__
+        print(self.assessment_id, other.assessment_id)
+        return self.assessment_id == other.assessment_id """
 
-    def save(self):
-        return dynamodb_insert(self.to_dict(), "ict2x01_module")
-
-    def find(self) -> bool:
-        if (result := dynamodb_select({"module_code": self.module_code}, "ict2x01_module")):
-            self.module_code = result["module_code"]
-            self.module_name = result["module_name"]
-            return True
-
-        return False
+    def to_dict(self):
+        return {
+            "name": str(self.name),
+            "max_marks": int(self.max_marks),
+            "create_date": int(self.create_date),
+            "end_date": int(self.end_date),
+            "weightage": Decimal(self.weightage),
+        }
 
     def delete(self):
         return dynamodb_delete(self.to_dict(), "ict2x01_module")
-
-    def update(self, other: Component) -> bool:
-        if not type(self) is type(other):
-            return False
-
-        self.name = other.name
-        self.max_marks = other.max_marks
-        self.end_date = other.end_date
-        self.weightage = other.weightage
-        return True
 
 
 """
@@ -65,14 +47,39 @@ class Component(ABC, BaseModel, IMapper):
 
 class Subcomponent(Component):
 
-    def __init__(self, id: str = None, name: str = None, max_marks: int = None, end_date: datetime.datetime = None, weightage: float = None):
-        super().__init__(name, max_marks, end_date, weightage)
+    subcomponent_id: Optional[str]
+    assessment_id: Optional[str]
 
-        if not id:
-            self.id = "S" + str(uuid.uuid1()).upper()
+    def __eq__(self, other: Subcomponent):
+        if not isinstance(other, Subcomponent):
+            return False
 
-        else:
-            self.id = id.upper()
+        return (self.subcomponent_id == other.subcomponent_id) or (self.name == other.name)
+
+    def to_dict(self) -> Dict:
+        subcomponent_dict = super().to_dict()
+        subcomponent_dict["subcomponent_id"] = self.subcomponent_id
+        subcomponent_dict["assessment_id"] = self.assessment_id
+        return subcomponent_dict
+
+    def find(self) -> bool:
+        if (result := dynamodb_select({"subcomponent_id": self.subcomponent_id}, "ict2x01_subcomponents")):
+            self.name = str(result["name"])
+            self.end_date = int(result["end_date"])
+            self.max_marks = int(result["max_marks"])
+            self.weightage = float(result["weightage"])
+            self.create_date = int(result["create_date"])
+            self.subcomponent_id = str(result["subcomponent_id"])
+            self.assessment_id = str(result["assessment_id"])
+            return True
+
+        return False
+
+    def new_id(self) -> str:
+        self.subcomponent_id = "S" + str(uuid.uuid4()).upper()
+
+    def save(self):
+        return dynamodb_insert(self.to_dict(), "ict2x01_subcomponents")
 
 
 """
@@ -82,32 +89,97 @@ class Subcomponent(Component):
 
 class Assessment(Component):
 
-    def __init__(self,
-                 id: str = None,
-                 name: str = None,
-                 max_marks: int = None,
-                 end_date: datetime.datetime = None,
-                 weightage: float = None,
-                 subcomponents: typing.List = []):
-        super().__init__(name, max_marks, end_date, weightage)
-        self.subcomponents = subcomponents
-        if not id:
-            self.id = "A" + str(uuid.uuid1()).upper()
+    assessment_id: Optional[str]
+    module_code: Optional[str]
+    subcomponents: List[Subcomponent] = []
 
-        else:
-            self.id = id.upper()
+    def __eq__(self, other: Assessment):
+        if not isinstance(other, Assessment):
+            return False
+
+        return (self.assessment_id == other.assessment_id) or (self.name == other.name)
 
     def add_subcomponent(self, subcomponent: Subcomponent) -> bool:
-        if not isinstance(subcomponent, Subcomponent):
+        if (not isinstance(subcomponent, Subcomponent)):
             return False
 
-        if subcomponent in self.subcomponents:
+        if (subcomponent in self.subcomponents):
             return False
+
+        subcomponent.new_id()
+        subcomponent.assessment_id = self.assessment_id
 
         self.subcomponents.append(subcomponent)
         return True
 
-    def remove_subcomponent(self, subcomponent: Subcomponent):
+    def to_dict(self) -> Dict:
+        assessment_dict = super().to_dict()
+        assessment_dict["module_code"] = self.module_code
+        assessment_dict["assessment_id"] = self.assessment_id
+        assessment_dict["subcomponents"] = [
+            s.subcomponent_id for s in self.subcomponents]
+        return assessment_dict
+
+    def find(self) -> bool:
+        if (result := dynamodb_select({"assessment_id": self.assessment_id}, "ict2x01_assessments")):
+            self.name = str(result["name"])
+            self.end_date = int(result["end_date"])
+            self.max_marks = int(result["max_marks"])
+            self.weightage = float(result["weightage"])
+            self.create_date = int(result["create_date"])
+            self.assessment_id = str(result["assessment_id"])
+            self.module_code = str(result["module_code"])
+            self.subcomponents = []
+
+            for subcomponent_id in result["subcomponents"]:
+                subcomponent = ComponentFactory.create_component(
+                    subcomponent_id)
+                if (subcomponent.find()):
+                    self.subcomponents.append(subcomponent)
+
+            return True
+
+        return False
+
+    def delete(self):
+        subcomponents = dynamodb_query(
+            {"assessment_id": self.assessment_id},
+            table_name="ict2x01_subcomponents",
+            index_name="assessment_id-index"
+        )
+
+        for subcomponent_id in subcomponents:
+            subcomponent = ComponentFactory.create_component(subcomponent_id)
+
+            if (subcomponent.find()):
+                subcomponent.delete()
+
+        dynamodb_delete({"assessment_id": self.assessment_id},
+                        "ict2x01_assessments")
+
+    def new_id(self) -> str:
+        self.assessment_id = "A" + str(uuid.uuid4()).upper()
+
+    def to_tree(self) -> typing.Dict:
+        tree = {
+            "name": self.name,
+            "end_date": self.end_date,
+            "max_marks": self.max_marks,
+            "weightage": self.weightage,
+            "create_date": self.create_date,
+            "assessment_id": self.assessment_id,
+            "type": "Assessment"
+        }
+
+        if self.subcomponents:
+            tree["children"] = [s.to_tree for s in self.subcomponents]
+
+        return tree
+
+    def save(self):
+        return dynamodb_insert(self.to_dict(), "ict2x01_assessments")
+
+    """ def remove_subcomponent(self, subcomponent: Subcomponent):
         if subcomponent in self.subcomponents:
             self.subcomponents.remove(subcomponent)
 
@@ -121,7 +193,7 @@ class Assessment(Component):
         return self.weightage - self.get_weightage()
 
     def get_remaining_max_marks(self) -> int:
-        return self.max_marks - self.get_max_marks()
+        return self.max_marks - self.get_max_marks() """
 
 
 class ComponentFactory:
@@ -130,21 +202,12 @@ class ComponentFactory:
     def create_component(_, component_id: str) -> Component:
 
         # Typecast id into str if it is not
-        if not isinstance(id, str):
-            id = str(id).upper()
+        component_id = str(component_id).upper()
 
         # Assessments starts with A
-        if id[0] == "A":
-            return Assessment(component_id)
+        if component_id[0] == "A":
+            return Assessment(assessment_id=component_id)
 
         # Subcomponents ID will start with S
-        elif id[0] == "S":
-            return Subcomponent(component_id)
-
-    @classmethod
-    def new_assessment(_) -> Assessment:
-        return Assessment()
-
-    @classmethod
-    def new_subcomponent(_) -> Subcomponent:
-        return Subcomponent
+        elif component_id[0] == "S":
+            return Subcomponent(subcomponent_id=component_id)
