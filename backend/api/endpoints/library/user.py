@@ -70,6 +70,9 @@ class UserFactory:
     @classmethod
     def create_user(_, email: str) -> User:
 
+        if (not isinstance(email, str)):
+            email = str(email)
+
         if "@" in email:
             user_id = email[0:email.index("@")]
 

@@ -22,22 +22,6 @@ async def add_subcomponent_to_assessment(assessment_id: str, subcomponent: Subco
     return {"MSG": "OK"}
 
 
-@router.put("/component/update")
-async def update_assessment(data: Component):
-    if (not valid_assessment_id(data.id)):
-        return {"msg": "Invalid assessment id"}
-
-    assessment = ComponentFactory.create_component(data.id)
-
-    if (not assessment.find()):
-        return {"msg": "Invalid assessment id"}
-
-    if (not assessment.update(data)):
-        return {"msg": "Invalid assessment id"}
-
-    return {"msg": "OK"}
-
-
 @router.delete("/component/delete")
 async def delete_component(component_id: str):
     if (not valid_component_id(component_id)):
@@ -58,3 +42,18 @@ async def get_component(component_id: str):
         return {"msg": "Invalid component id"}
 
     return {"msg": component}
+
+
+@router.patch("/component/update")
+async def update_component(data: Component):
+    old_component = ComponentFactory.create_component(data.component_id)
+
+    if (not old_component.find()):
+        return {"msg": "Invalid component"}
+
+    old_component.name = data.name
+    old_component.max_marks = data.max_marks
+    old_component.weightage = data.weightage
+    old_component.save()
+
+    return {"msg": "OK"}

@@ -54,9 +54,9 @@ export default class ProfessorAssessment extends Component {
 				</div>
 
 				{this.state.page === "View" ? (
-					<AssessmentForm item={item} disabled={true} />
+					<AssessmentForm item={item} disabled={true} refresh={this.props.refresh} />
 				) : this.state.page === "Edit" ? (
-					<AssessmentForm item={item} disabled={false} />
+					<AssessmentForm item={item} disabled={false} refresh={this.props.refresh} />
 				) : this.state.page === "Marks" ? (
 					<AssessmentEnterMarks item={item} />
 				) : this.state.page === "Feedback" ? (
@@ -73,7 +73,46 @@ class AssessmentForm extends React.Component {
 	static contextType = MyContext;
 	constructor(props) {
 		super(props);
+
+		const item = this.props.item;
+
+		this.state = {
+			assessment_id: item.assessment_id,
+			name: item.name,
+			max_marks: item.max_marks,
+			weightage: item.weightage,
+			end_date: item.end_date,
+		};
 	}
+
+	handleChange = (event) => {
+		this.setState({
+			[event.currentTarget.name]: event.currentTarget.value,
+		});
+	};
+
+	deleteAssessment = () => {
+		const moduleCode = this.props.item.module_code;
+		const assessmentId = this.props.item.assessment_id;
+		const apiUrl = `${this.context.apiUrl}/module/assessment/delete?module_code=${moduleCode}&assessment_id=${assessmentId}`;
+
+		axios.delete(apiUrl).then((res) => {
+			console.log(res.data);
+		});
+	};
+
+	saveAssessment = () => {
+		const apiUrl = `${this.context.apiUrl}/component/update`;
+
+		axios
+			.patch(apiUrl, { component_id: this.state.assessment_id, name: this.state.name, max_marks: this.state.max_marks, weightage: this.state.weightage, end_date: 0, create_date: 0 })
+			.then((res) => {
+				if (res.data.msg === "OK") {
+					this.context.successToast("Assessment updated");
+					this.props.refresh();
+				}
+			});
+	};
 
 	render() {
 		const item = this.props.item;
@@ -84,25 +123,25 @@ class AssessmentForm extends React.Component {
 			<>
 				<div className="form-group">
 					<label className="">Assessment Name:</label>
-					<input disabled={this.props.disabled} value={item.name} className="form-control"></input>
+					<input onChange={this.handleChange} name="name" value={this.state.name} disabled={this.props.disabled} className="form-control"></input>
 				</div>
 				<div className="form-group">
 					<label className="">Max Marks:</label>
-					<input disabled={disableWeightage} value={item.max_marks} className="form-control"></input>
+					<input onChange={this.handleChange} name="max_marks" value={this.state.max_marks} disabled={disableWeightage} className="form-control"></input>
 				</div>
 				<div className="form-group">
 					<label className="">Weightage:</label>
-					<input disabled={disableWeightage} value={item.weightage} className="form-control"></input>
-				</div>
-				<div className="form-group">
-					<label className="">End Date:</label>
-					<input disabled={this.props.disabled} value={item.end_date} className="form-control"></input>
+					<input onChange={this.handleChange} name="weightage" value={this.state.weightage} disabled={disableWeightage} className="form-control"></input>
 				</div>
 
 				{!this.props.disabled ? (
 					<div className="fb fb-row fb-sb" style={{}}>
-						<button className="btn btn-danger">Delete</button>
-						<button className="btn btn-primary">Save</button>
+						<button className="btn btn-danger" onClick={this.deleteAssessment}>
+							Delete
+						</button>
+						<button className="btn btn-primary" onClick={this.saveAssessment}>
+							Save
+						</button>
 					</div>
 				) : (
 					<></>
@@ -119,22 +158,47 @@ class AssessmentEnterMarks extends React.Component {
 
 		this.state = {
 			students: [],
+			item: null,
 		};
 	}
 
 	componentDidMount() {
-		const apiUrl = `${this.context.apiUrl}/module/users/get?module_code=${this.props.item.module_code}&role=student`;
+		const apiUrl = `${this.context.apiUrl}/module/students/get?module_code=${this.props.item.module_code}`;
+
 		axios.get(apiUrl).then((res) => {
 			this.setState({
 				students: res.data,
+				item: this.props.item,
 			});
 		});
 	}
 
+	enterMarks = (event) => {
+		const apiUrl = `${this.context.apiUrl}/marks/set`;
+		const user_id = this.state.students[event.currentTarget.id].user_id;
+		const marks = event.currentTarget.value;
+
+		if (marks <= this.state.item.max_marks) {
+			axios.post(apiUrl, { component_id: this.state.item.assessment_id, user_id: user_id, marks: marks });
+		} else {
+			this.context.errorToast(`Marks cannot be more than ${this.state.item.max_marks}`);
+			event.currentTarget.value = this.state.item.max_marks;
+		}
+	};
+
 	render() {
 		const item = this.props.item;
+		const hasSubcomponents = "children" in item;
 
-		if (this.state.students.length === 0) {
+		if (hasSubcomponents) {
+			return (
+				<div className="fb fb-col fcc" style={{ height: "100%" }}>
+					<label>
+						<h3>Cannot set marks here because this assessment has subcomponents</h3>
+					</label>
+				</div>
+			);
+		} else if (this.state.students.length === 0) {
 			return (
 				<div className="fb fb-col fcc" style={{ height: "100%" }}>
 					<label>
@@ -151,21 +215,24 @@ class AssessmentEnterMarks extends React.Component {
 								<th>Student ID</th>
 								<th>Name</th>
 								<th>Marks</th>
+								<th>Max marks</th>
 							</tr>
 						</thead>
 						<tbody>
-							<tr>
-								<td>1902619</td>
-								<td>Max Lee</td>
-								<td>
-									<input className="form-control" type="number" min="0" max={item.max_marks} />
-								</td>
-							</tr>
+							{this.state.students.map((student, index) => {
+								return (
+									<tr key={index}>
+										<td>{student.user_id}</td>
+										<td>{student.name}</td>
+										<td>
+											<input id={index} className="form-control" type="number" min="0" max={item.max_marks} onChange={this.enterMarks} />
+										</td>
+										<td>/ {item.max_marks}</td>
+									</tr>
+								);
+							})}
 						</tbody>
 					</table>
-					<div className="fb fb-row fb-sb" style={{ flexDirection: "row-reverse" }}>
-						<button className="btn btn-primary">Save</button>
-					</div>
 				</div>
 			);
 		}
@@ -204,11 +271,20 @@ class AssessmentEnterFeedback extends React.Component {
 		};
 	}
 
-	componentDidMount() {}
+	componentDidMount() {
+		const item = this.props.item;
+		const apiUrl = `${this.context.apiUrl}/feedback/get`;
+	}
 
 	handleChange = (event) => {
 		this.setState({
 			[event.target.name]: event.target.value,
+		});
+	};
+
+	updateSummativeComment = (event) => {
+		this.setState({
+			summativeComment: event.currentTarget.value,
 		});
 	};
 
@@ -222,6 +298,9 @@ class AssessmentEnterFeedback extends React.Component {
 						<option value="Summative">Summative</option>
 						<option value="Formative">Formative</option>
 					</select>
+				</div>
+				<div>
+					<textarea value={this.state.summativeComment} onChange={this.updateSummativeComment} style={{ width: "100%" }} />
 				</div>
 			</div>
 		);

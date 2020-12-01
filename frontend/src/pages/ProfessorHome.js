@@ -21,14 +21,16 @@ export default class ProfessorHome extends Component {
 	}
 
 	componentDidMount() {
+		this.refreshData();
+	}
+
+	refreshData = () => {
 		axios.get(`${this.context.apiUrl}/user/modules/get?email=A88888%40singaporetech.edu.sg`).then((res) => {
 			this.setState({
 				data: res.data,
 			});
-
-			console.log(res.data);
 		});
-	}
+	};
 
 	onToggle(node, toggled) {
 		const { cursor, data } = this.state;
@@ -75,7 +77,7 @@ export default class ProfessorHome extends Component {
 				</div>
 			);
 		} else if (item.type === "Assessment") {
-			page = <ProfessorAssessment item={item} />;
+			page = <ProfessorAssessment item={item} refresh={this.refreshData} />;
 		} else if (item.type === "Module") {
 			page = (
 				<div className="fb fb-col fcc" style={{ height: "100%" }}>
@@ -88,7 +90,7 @@ export default class ProfessorHome extends Component {
 				</div>
 			);
 		} else if (item.type === "Subcomponent") {
-			page = <ProfessorAssessment item={item} />;
+			page = <ProfessorAssessment item={item} refresh={this.refreshData} />;
 		}
 
 		return (

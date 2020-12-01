@@ -11,15 +11,12 @@ from decimal import Decimal
 
 class Component(ABC, BaseModel, IMapper):
 
+    component_id: Optional[str]
     name: Optional[str]
     end_date: Optional[int]
     max_marks: Optional[int]
     weightage: Optional[float]
     create_date: int = int(time.time())
-
-    @abstractmethod
-    def __eq__(self, other: Component):
-        pass
 
     def to_dict(self):
         return {
@@ -29,6 +26,15 @@ class Component(ABC, BaseModel, IMapper):
             "end_date": int(self.end_date),
             "weightage": Decimal(self.weightage),
         }
+
+    def save(self):
+        pass
+
+    def find(self):
+        pass
+
+    def delete(self):
+        pass
 
     def get_feedback(self, component_id):
         return dynamodb_query({"component_id": component_id}, "ict2x01_feedback", "component_id-index")

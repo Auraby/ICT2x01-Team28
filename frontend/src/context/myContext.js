@@ -89,6 +89,18 @@ export class MyProvider extends React.Component {
 		});
 	};
 
+	errorToast = (message) => {
+		toast.error(message, {
+			position: "bottom-right",
+			autoClose: 2000,
+			hideProgressBar: false,
+			closeOnClick: true,
+			pauseOnHover: true,
+			draggable: true,
+			progress: undefined,
+		});
+	};
+
 	render() {
 		return (
 			<MyContext.Provider
@@ -100,6 +112,7 @@ export class MyProvider extends React.Component {
 					infoToast: this.infoToast,
 					warningToast: this.warningToast,
 					successToast: this.successToast,
+					errorToast: this.errorToast,
 				}}
 			>
 				{this.props.children}

@@ -3,11 +3,12 @@ from .library.component import *
 from .library.module import *
 from .library.utils import *
 from .library.feedback import *
+from .library.database import *
 
 router = APIRouter()
 
 
-@router.put("/feedback/update")
+@router.patch("/feedback/update")
 async def update_feedback(feedback_id: str, new_feedback: Feedback):
     old_feedback = FeedbackFactory.create_feedback(feedback_id)
 
@@ -49,3 +50,5 @@ async def get_feedback_for_component(component_id: str):
 
     if (not component.find()):
         return {"msg": "Invalid component id"}
+
+    return dynamodb_query({"component_id": component_id}, "ict2x01_feedbacks", "component_id-index")

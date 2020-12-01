@@ -26,3 +26,19 @@ async def get_marks(component_id: str, user_id: str):
         return {"msg": "No marks exists"}
 
     return marks.to_dict()
+
+
+@router.post("/marks/set")
+async def set_marks(data: Marks):
+    component = ComponentFactory.create_component(data.component_id)
+    user = UserFactory.create_user(data.user_id)
+
+    if (not component.find()):
+        return {"msg": "Invalid component id"}
+
+    if (not user.find()):
+        return {"msg": "Invalid user_id"}
+
+    data.save()
+
+    return {"msg": "OK"}

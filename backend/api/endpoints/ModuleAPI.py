@@ -79,10 +79,10 @@ async def delete_assessment_from_module(module_code: str, assessment_id: str):
     return {"OK"}
 
 
-@router.get("/module/users/get")
-async def get_users_for_module(module_code: str, role: str):
+@router.get("/module/students/get")
+async def get_students_for_module(module_code: str):
 
-    users = dynamodb_scan({"role": role}, "ict2x01_users")
+    users = dynamodb_scan({"role": "student"}, "ict2x01_users")
     module_users = []
 
     for user in users:

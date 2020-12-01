@@ -10,7 +10,7 @@ import uuid
 class Marks(IMapper, BaseModel):
 
     marks: Optional[int]
-    user_id: Optional[int]
+    user_id: Optional[str]
     component_id: Optional[str]
 
     def to_dict(self):
@@ -20,7 +20,7 @@ class Marks(IMapper, BaseModel):
         return dynamodb_insert(self.to_dict(), "ict2x01_marks")
 
     def find(self):
-        if (result := dynamodb_select({"component_id": self.component_id, "user_id": self.user_id}, "ict2x01_marks", "")):
+        if (result := dynamodb_select({"component_id": self.component_id, "user_id": self.user_id}, "ict2x01_marks")):
             self.marks = result["marks"]
             return True
 
