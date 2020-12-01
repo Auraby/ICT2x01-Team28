@@ -1,9 +1,9 @@
-import typing
-import boto3
+from typing import *
+from boto3 import resource
 from boto3.dynamodb.conditions import Key, Attr
 
 
-dynamodb = boto3.resource('dynamodb', region_name="ap-southeast-1")
+dynamodb = resource('dynamodb', region_name="ap-southeast-1")
 
 
 def test_connection() -> None:
@@ -11,7 +11,7 @@ def test_connection() -> None:
     print(dynamodb.list_tables())
 
 
-def dynamodb_select(query: typing.Dict, table: str) -> typing.Dict:
+def dynamodb_select(query: Dict, table: str) -> Dict:
     global dynamodb
 
     if result := dynamodb.Table(table).get_item(
@@ -22,7 +22,7 @@ def dynamodb_select(query: typing.Dict, table: str) -> typing.Dict:
         return result["Item"] if "Item" in result.keys() else {}
 
 
-def dynamodb_scan(query: typing.Dict, table_name: str) -> typing.List:
+def dynamodb_scan(query: Dict, table_name: str) -> List:
     global dynamodb
 
     if result := dynamodb.Table(table_name).scan(
@@ -34,7 +34,7 @@ def dynamodb_scan(query: typing.Dict, table_name: str) -> typing.List:
         return result["Items"] if "Items" in result.keys() else {}
 
 
-def dynamodb_insert(item: typing.Dict, table: str) -> typing.Dict:
+def dynamodb_insert(item: Dict, table: str) -> Dict:
     global dynamodb
 
     return dynamodb.Table(table).put_item(
@@ -42,7 +42,7 @@ def dynamodb_insert(item: typing.Dict, table: str) -> typing.Dict:
     )
 
 
-def dynamodb_delete(item: typing.Dict, table: str) -> typing.Dict:
+def dynamodb_delete(item: Dict, table: str) -> Dict:
     global dynamodb
 
     return dynamodb.Table(table).delete_item(
@@ -53,7 +53,7 @@ def dynamodb_delete(item: typing.Dict, table: str) -> typing.Dict:
     )
 
 
-def dynamodb_query(query: typing.Dict, table_name: str, index_name: str = None) -> typing.List:
+def dynamodb_query(query: Dict, table_name: str, index_name: str = None) -> List:
     global dynamodb
 
     if not index_name:

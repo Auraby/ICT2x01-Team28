@@ -24,10 +24,16 @@ async def add_subcomponent_to_assessment(assessment_id: str, subcomponent: Subco
 
 @router.delete("/component/delete")
 async def delete_component(component_id: str):
-    if (not valid_component_id(component_id)):
-        return {"msg": "Invalid component id"}
-
     component = ComponentFactory.create_component(component_id)
+
+    if (not component.find()):
+        return {"msg": "Component does not exist"}
+
+    if (isinstance(component, Assessment)):
+        module = Module(module_code=component.module_code)
+        module.remove_assessment(component)
+        module.save()
+
     component.delete()
     return {"msg": "OK"}
 

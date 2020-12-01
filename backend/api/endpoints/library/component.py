@@ -1,5 +1,5 @@
 from __future__ import annotations
-from abc import ABC, abstractmethod
+from abc import ABC
 from pydantic.main import BaseModel
 from .mapper import IMapper
 from typing import *
@@ -35,9 +35,6 @@ class Component(ABC, BaseModel, IMapper):
 
     def delete(self):
         pass
-
-    def get_feedback(self, component_id):
-        return dynamodb_query({"component_id": component_id}, "ict2x01_feedback", "component_id-index")
 
 
 class Subcomponent(Component):
@@ -77,10 +74,16 @@ class Subcomponent(Component):
         return dynamodb_insert(self.to_dict(), "ict2x01_subcomponents")
 
     def delete(self):
-        pass
+        dynamodb_delete({"subcomponent_id": self.subcomponent_id},
+                        "ict2x01_subcomponents")
 
-    def get_feedback(self):
-        return super().get_feedback(self.subcomponent_id)
+        print(self.assessment_id)
+
+        assessment = ComponentFactory.create_component(self.assessment_id)
+
+        if (assessment.find()):
+            assessment.remove_subcomponent(self)
+            assessment.save()
 
 
 class Assessment(Component):
@@ -106,6 +109,16 @@ class Assessment(Component):
         subcomponent.assessment_id = self.assessment_id
 
         self.subcomponents.append(subcomponent)
+        return True
+
+    def remove_subcomponent(self, subcomponent: Subcomponent):
+        if (not isinstance(subcomponent, Subcomponent)):
+            return False
+
+        if (not subcomponent in self.subcomponents):
+            return False
+
+        self.subcomponents.remove(subcomponent)
         return True
 
     def to_dict(self) -> Dict:
@@ -161,7 +174,7 @@ class Assessment(Component):
     def new_id(self) -> str:
         self.assessment_id = "A" + str(uuid.uuid4()).upper()
 
-    def to_tree(self) -> typing.Dict:
+    def to_tree(self) -> Dict:
         tree = self.to_dict()
         tree["type"] = "Assessment"
         tree.pop("subcomponents")
@@ -179,9 +192,6 @@ class Assessment(Component):
     def save(self):
         return dynamodb_insert(self.to_dict(), "ict2x01_assessments")
 
-    def get_feedback(self):
-        return super().get_feedback(self.assessment_id)
-
 
 class ComponentFactory:
 
@@ -196,5 +206,5 @@ class ComponentFactory:
             return Assessment(assessment_id=component_id)
 
         # Subcomponents ID will start with S
-        elif component_id[0] == "S":
+        else:
             return Subcomponent(subcomponent_id=component_id)
