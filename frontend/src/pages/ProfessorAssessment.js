@@ -127,11 +127,11 @@ class AssessmentForm extends React.Component {
 				</div>
 				<div className="form-group">
 					<label className="">Max Marks:</label>
-					<input onChange={this.handleChange} name="max_marks" value={this.state.max_marks} disabled={disableWeightage} className="form-control"></input>
+					<input onChange={this.handleChange} name="max_marks" value={this.state.max_marks} disabled={disableWeightage} className="form-control" type="number" min="0"></input>
 				</div>
 				<div className="form-group">
 					<label className="">Weightage:</label>
-					<input onChange={this.handleChange} name="weightage" value={this.state.weightage} disabled={disableWeightage} className="form-control"></input>
+					<input onChange={this.handleChange} name="weightage" value={this.state.weightage} disabled={disableWeightage} className="form-control" type="number" min="0"></input>
 				</div>
 
 				{!this.props.disabled ? (
