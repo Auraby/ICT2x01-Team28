@@ -127,11 +127,11 @@ class AssessmentForm extends React.Component {
 				</div>
 				<div className="form-group">
 					<label className="">Max Marks:</label>
-					<input onChange={this.handleChange} name="max_marks" value={this.state.max_marks} disabled={disableWeightage} className="form-control"></input>
+					<input onChange={this.handleChange} name="max_marks" value={this.state.max_marks} disabled={disableWeightage} className="form-control" type="number" min="0"></input>
 				</div>
 				<div className="form-group">
 					<label className="">Weightage:</label>
-					<input onChange={this.handleChange} name="weightage" value={this.state.weightage} disabled={disableWeightage} className="form-control"></input>
+					<input onChange={this.handleChange} name="weightage" value={this.state.weightage} disabled={disableWeightage} className="form-control" type="number" min="0"></input>
 				</div>
 
 				{!this.props.disabled ? (
@@ -198,7 +198,7 @@ class AssessmentEnterMarks extends React.Component {
 
 		if (hasSubcomponents) {
 			return (
-				<div className="fb fb-col fcc" style={{ height: "100%" }}>
+				<div className="fb fb-col fcc" style={{ height: "100%",textAlign:"center" }}>
 					<label>
 						<h3>Cannot set marks here because this assessment has subcomponents</h3>
 					</label>
@@ -330,6 +330,7 @@ class AssessmentEnterFeedback extends React.Component {
 						<option value="Formative">Formative</option>
 					</select>
 				</div>
+				<br></br>
 				{this.state.feedbackType === "Summative" ? (
 					<div>
 						<textarea value={this.state.summativeComments} onChange={this.updateSummativeComment} style={{ width: "100%" }} />
