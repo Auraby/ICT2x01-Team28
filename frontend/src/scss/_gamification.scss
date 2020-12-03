@@ -21,3 +21,31 @@
 	height: 128px;
 	width: 128px;
 }
+
+.achievement-img-small {
+	height: 125px;
+	width: 125px;
+	border: 5px solid gray;
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+	position: relative;
+}
+
+.achievement-locked-overlay {
+	height: 125px;
+	width: 125px;
+	background-color: black;
+	opacity: 0.7;
+	position: absolute;
+	border-radius: 50%;
+	border: 5px solid darken(gray, 40%);
+}
+
+.unknown-user-overlay {
+	height: 125px;
+	width: 125px;
+	background-color: black;
+	opacity: 0.8;
+	position: absolute;
+	border-radius: 50%;
+	border: 5px solid darken(gray, 40%);
+}

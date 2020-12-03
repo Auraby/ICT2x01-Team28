@@ -181,7 +181,11 @@ class AssessmentEnterMarks extends React.Component {
 		const marks = event.currentTarget.value;
 
 		if (marks <= this.state.item.max_marks) {
-			axios.post(apiUrl, { component_id: this.state.item.assessment_id, user_id: user_id, marks: marks });
+			axios.post(apiUrl, { component_id: this.state.item.assessment_id, user_id: user_id, marks: marks }).then((res) => {
+				if (res.data.msg !== "OK") {
+					this.context.errorToast(res.data.msg);
+				}
+			});
 		} else {
 			this.context.errorToast(`Marks cannot be more than ${this.state.item.max_marks}`);
 			event.currentTarget.value = this.state.item.max_marks;

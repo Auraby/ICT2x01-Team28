@@ -10,6 +10,8 @@ router = APIRouter()
 async def login(email: str, password: str):
     user = UserFactory.create_user(email)
 
+    print(user)
+
     if (not user.find()):
         return {"msg": "Invalid email"}
 

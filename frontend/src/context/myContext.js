@@ -11,13 +11,13 @@ export class MyProvider extends React.Component {
 		super(props);
 
 		this.state = {
-			email: "",
+			email: "1902619@sit.singaporetech.edu.sg",
 			role: "",
 			name: "",
-			user_id: "",
+			user_id: "1902619",
 			modules: [],
-			/* apiUrl: "http://localhost:8000", */
-			apiUrl: "https://api.ict2x01.xxhamster.org",
+			apiUrl: "http://localhost:8000",
+			/* apiUrl: "https://api.ict2x01.xxhamster.org", */
 		};
 	}
 

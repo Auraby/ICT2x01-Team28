@@ -54,14 +54,16 @@ export function Achievement(props) {
 		transform: hover ? "translate3d(0px,0,0) scale(1.1) rotateX(0deg)" : "translate3d(0px,0,0) scale(0.90) rotateX(0deg)",
 	});
 
+	const item = props.item;
+
 	return (
 		<div style={props.style}>
 			<animated.div className="px-1 fb fb-col fb-center" onClick={() => flip(!flipped)} onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)} style={hoverScale}>
 				<animated.img alt="" style={{ opacity: opacity.interpolate((o) => 1 - o), transform }} className="rounded-circle achievement-img" src={`${process.env.PUBLIC_URL}${props.src}`} />
 				<animated.div style={{ opacity, transform: transform.interpolate((t) => `${t} rotateX(180deg)`) }} className="fb fb-center rounded-circle achievement-img achievement-img-back">
-					<label className="text-center">Get all A's for all lecture quiz</label>
+					<label className="text-center">{item.description}</label>
 				</animated.div>
-				<label>Achievement #1</label>
+				<label>{item.name}</label>
 			</animated.div>
 		</div>
 	);
@@ -82,9 +84,9 @@ export function Module(props) {
 	return (
 		<animated.div className="cards fb fb-col fb-se fb-center" onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)} style={style} onClick={props.onClick}>
 			<a href={props.href}>
-				<img alt="" className="module-img" src={`${process.env.PUBLIC_URL}${props.src}`} />
-				<h4>{props.label}</h4>
+				<img alt="" className="module-img" src={`${process.env.PUBLIC_URL}/img/${props.label}.png`} />
 			</a>
+			<h4>{props.label}</h4>
 		</animated.div>
 	);
 }

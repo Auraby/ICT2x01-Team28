@@ -31,6 +31,7 @@ class User(ABC, IMapper, BaseModel):
 
     def find(self) -> bool:
         if (result := dynamodb_select({"user_id": self.user_id}, "ict2x01_users")):
+            self.role = result["role"]
             self.name = result["name"]
             self.email = result["email"]
             self.password = result["password"]

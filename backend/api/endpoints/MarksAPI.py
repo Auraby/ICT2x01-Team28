@@ -25,7 +25,10 @@ async def get_marks(component_id: str, user_id: str):
     if (not marks.find()):
         return {"msg": "No marks exists"}
 
-    return marks.to_dict()
+    marks_dict = marks.to_dict()
+    marks_dict["max_marks"] = component.max_marks
+
+    return marks_dict
 
 
 @router.post("/marks/set")

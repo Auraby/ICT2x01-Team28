@@ -24,12 +24,11 @@ export default class Login extends Component {
 	handleSubmit = (event) => {
 		event.preventDefault();
 
-		console.log(`${this.context.apiUrl}/user/login?email=${this.state.email}&password=${this.state.password}`);
-
 		axios.get(`${this.context.apiUrl}/user/login?email=${this.state.email}&password=${this.state.password}`).then((res) => {
 			if (res.data.msg !== "OK") {
-				this.context.warningToast(res.data.msg);
+				this.context.errorToast(res.data.msg);
 			} else {
+				console.log(res.data.user);
 				this.context.login(res.data.user);
 			}
 		});

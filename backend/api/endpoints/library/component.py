@@ -50,6 +50,7 @@ class Subcomponent(Component):
 
     def to_dict(self) -> Dict:
         subcomponent_dict = super().to_dict()
+        subcomponent_dict["component_id"] = self.subcomponent_id
         subcomponent_dict["subcomponent_id"] = self.subcomponent_id
         subcomponent_dict["assessment_id"] = self.assessment_id
         return subcomponent_dict
@@ -74,10 +75,10 @@ class Subcomponent(Component):
         return dynamodb_insert(self.to_dict(), "ict2x01_subcomponents")
 
     def delete(self):
+        print(self.subcomponent_id)
+
         dynamodb_delete({"subcomponent_id": self.subcomponent_id},
                         "ict2x01_subcomponents")
-
-        print(self.assessment_id)
 
         assessment = ComponentFactory.create_component(self.assessment_id)
 
@@ -123,6 +124,7 @@ class Assessment(Component):
 
     def to_dict(self) -> Dict:
         assessment_dict = super().to_dict()
+        assessment_dict["component_id"] = self.assessment_id
         assessment_dict["module_code"] = self.module_code
         assessment_dict["assessment_id"] = self.assessment_id
         assessment_dict["subcomponents"] = [
@@ -140,16 +142,18 @@ class Assessment(Component):
             self.module_code = str(result["module_code"])
             self.subcomponents = []
 
-            for subcomponent_id in result["subcomponents"]:
-                subcomponent = ComponentFactory.create_component(
-                    subcomponent_id)
+            if result["subcomponents"]:
                 self.weightage = 0
                 self.max_marks = 0
 
-                if (subcomponent.find()):
-                    self.subcomponents.append(subcomponent)
-                    self.max_marks += subcomponent.max_marks
-                    self.weightage += subcomponent.weightage
+                for subcomponent_id in result["subcomponents"]:
+                    subcomponent = ComponentFactory.create_component(
+                        subcomponent_id)
+
+                    if (subcomponent.find()):
+                        self.subcomponents.append(subcomponent)
+                        self.max_marks += subcomponent.max_marks
+                        self.weightage += subcomponent.weightage
 
             return True
 
@@ -162,11 +166,11 @@ class Assessment(Component):
             index_name="assessment_id-index"
         )
 
-        for subcomponent_id in subcomponents:
-            subcomponent = ComponentFactory.create_component(subcomponent_id)
-
-            if (subcomponent.find()):
-                subcomponent.delete()
+        for subcomponent in subcomponents:
+            subcomponent = ComponentFactory.create_component(
+                subcomponent["subcomponent_id"])
+            subcomponent.find()
+            subcomponent.delete()
 
         dynamodb_delete({"assessment_id": self.assessment_id},
                         "ict2x01_assessments")
