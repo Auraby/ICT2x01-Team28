@@ -194,7 +194,7 @@ class AssessmentEnterMarks extends React.Component {
 
 		if (hasSubcomponents) {
 			return (
-				<div className="fb fb-col fcc" style={{ height: "100%" }}>
+				<div className="fb fb-col fcc" style={{ height: "100%",textAlign:"center" }}>
 					<label>
 						<h3>Cannot set marks here because this assessment has subcomponents</h3>
 					</label>
@@ -326,6 +326,7 @@ class AssessmentEnterFeedback extends React.Component {
 						<option value="Formative">Formative</option>
 					</select>
 				</div>
+				<br></br>
 				{this.state.feedbackType === "Summative" ? (
 					<div>
 						<textarea value={this.state.summativeComments} onChange={this.updateSummativeComment} style={{ width: "100%" }} />

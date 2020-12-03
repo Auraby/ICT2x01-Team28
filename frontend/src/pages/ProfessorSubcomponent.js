@@ -272,6 +272,7 @@ class SubcomponentEnterFeedback extends React.Component {
 						<option value="Formative">Formative</option>
 					</select>
 				</div>
+				<br></br>
 				<div>{this.state.feedbackType === "Summative" ? <textarea value={this.state.summativeComment} onChange={this.updateSummativeComment} style={{ width: "100%" }} /> : <></>}</div>
 			</div>
 		);
