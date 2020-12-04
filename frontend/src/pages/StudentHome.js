@@ -3,6 +3,7 @@ import { MyContext } from "../context/myContext";
 import { Panel } from "../components/panel";
 import { Module } from "../components/image";
 import axios from "axios";
+import { Redirect } from "react-router-dom";
 
 export default class StudentHome extends Component {
 	static contextType = MyContext;
@@ -27,6 +28,10 @@ export default class StudentHome extends Component {
 	}
 
 	render() {
+		if (this.context.state.email === "") {
+			return <Redirect to="/login" />;
+		}
+
 		return (
 			<Panel>
 				<div className="fb fb-col">

@@ -11,13 +11,13 @@ export class MyProvider extends React.Component {
 		super(props);
 
 		this.state = {
-			email: "1902619@sit.singaporetech.edu.sg",
+			email: "",
 			role: "",
 			name: "",
-			user_id: "1902619",
+			user_id: "",
 			modules: [],
-			apiUrl: "http://localhost:8000",
-			/* apiUrl: "https://api.ict2x01.xxhamster.org", */
+			/* apiUrl: "http://localhost:8000", */
+			apiUrl: "https://api.ict2x01.bitcarry.net",
 		};
 	}
 
@@ -107,6 +107,8 @@ export class MyProvider extends React.Component {
 			<MyContext.Provider
 				value={{
 					state: this.state,
+					user_id: this.state.user_id,
+					email: this.state.email,
 					logout: this.logout,
 					login: this.login,
 					apiUrl: this.state.apiUrl,

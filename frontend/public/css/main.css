@@ -6089,7 +6089,8 @@ label {
   color: #b9c1ca; }
 
 .css-f91fgu {
-  background-color: #273142 !important; }
+  background-color: #273142 !important;
+  padding: 25px !important; }
 
 .hg-container {
   display: grid;

@@ -88,11 +88,16 @@ class SubcomponentForm extends React.Component {
 
 	deleteAssessment = () => {
 		const moduleCode = this.props.item.module_code;
-		const assessmentId = this.props.item.assessment_id;
-		const apiUrl = `${this.context.apiUrl}/module/assessment/delete?module_code=${moduleCode}&assessment_id=${assessmentId}`;
+		const assessmentId = this.props.item.component_id;
+		const apiUrl = `${this.context.apiUrl}/component/delete?component_id=${assessmentId}`;
 
 		axios.delete(apiUrl).then((res) => {
-			console.log(res.data);
+
+
+			if (res.data.msg === "OK") {
+                this.context.successToast("Assessment updated");
+                this.props.refresh();
+            }
 		});
 	};
 
@@ -100,7 +105,7 @@ class SubcomponentForm extends React.Component {
 		const apiUrl = `${this.context.apiUrl}/component/update`;
 
 		axios
-			.patch(apiUrl, { component_id: this.state.assessment_id, name: this.state.name, max_marks: this.state.max_marks, weightage: this.state.weightage, end_date: 0, create_date: 0 })
+			.patch(apiUrl, { component_id: this.props.item.component_id, name: this.state.name, max_marks: this.state.max_marks, weightage: this.state.weightage, end_date: 0, create_date: 0 })
 			.then((res) => {
 				if (res.data.msg === "OK") {
 					this.context.successToast("Assessment updated");
@@ -110,7 +115,8 @@ class SubcomponentForm extends React.Component {
 	};
 
 	render() {
-		const item = this.props.item;
+        const item = this.props.item;
+        console.log(item);
 
 		const disableWeightage = "children" in item ? true : this.props.disabled;
 
@@ -173,8 +179,10 @@ class SubcomponentEnterMarks extends React.Component {
 		const user_id = this.state.students[event.currentTarget.id].user_id;
 		const marks = event.currentTarget.value;
 
+		console.log(this.props.item);
+
 		if (marks <= this.state.item.max_marks) {
-			axios.post(apiUrl, { component_id: this.state.item.assessment_id, user_id: user_id, marks: marks });
+			axios.post(apiUrl, { component_id: this.state.item.component_id, user_id: user_id, marks: marks });
 		} else {
 			this.context.errorToast(`Marks cannot be more than ${this.state.item.max_marks}`);
 			event.currentTarget.value = this.state.item.max_marks;
@@ -183,17 +191,8 @@ class SubcomponentEnterMarks extends React.Component {
 
 	render() {
 		const item = this.props.item;
-		const hasSubcomponents = "children" in item;
 
-		if (hasSubcomponents) {
-			return (
-				<div className="fb fb-col fcc" style={{ height: "100%" }}>
-					<label>
-						<h3>Cannot set marks here because this assessment has subcomponents</h3>
-					</label>
-				</div>
-			);
-		} else if (this.state.students.length === 0) {
+		if (this.state.students.length === 0) {
 			return (
 				<div className="fb fb-col fcc" style={{ height: "100%" }}>
 					<label>

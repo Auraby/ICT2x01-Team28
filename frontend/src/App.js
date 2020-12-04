@@ -28,15 +28,15 @@ const App = () => {
 		<MyProvider>
 			<BrowserRouter>
 				<Switch>
+					<Route exact path="/" component={Login} />
 					<Route exact path="/login" component={Login} />
 					<div className="hg-container">
 						<header>
 							<Navbar />
 						</header>
 						<main>
-							<Route exact path="/" component={StudentHome} />
-							<Route exact path="/home" component={StudentHome} />
-							<Route exact path="/professorhome" component={ProfessorHome} />
+							<Route exact path="/studentHome" component={StudentHome} />
+							<Route exact path="/professorHome" component={ProfessorHome} />
 							<Route exact path="/studentview/module/:module_code" component={ViewModule} />
 							<Route exact path="/logout" component={Logout} />
 							<Route exact path="/upload" component={Upload} />

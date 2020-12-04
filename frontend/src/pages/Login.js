@@ -36,7 +36,7 @@ export default class Login extends Component {
 
 	render() {
 		if (this.context.state.role === "student") {
-			return <Redirect to="/home" />;
+			return <Redirect to="/studentHome" />;
 		} else if (this.context.state.role === "professor") {
 			return <Redirect to="professorHome" />;
 		}

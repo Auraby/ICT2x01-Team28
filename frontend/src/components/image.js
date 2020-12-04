@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useSpring, animated } from "react-spring";
+import { Link } from "react-router-dom";
 
 export function AnimatedButton() {
 	const [pressed, setPressed] = useState(false);
@@ -83,9 +84,9 @@ export function Module(props) {
 
 	return (
 		<animated.div className="cards fb fb-col fb-se fb-center" onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)} style={style} onClick={props.onClick}>
-			<a href={props.href}>
+			<Link to={props.href}>
 				<img alt="" className="module-img" src={`${process.env.PUBLIC_URL}/img/${props.label}.png`} />
-			</a>
+			</Link>
 			<h4>{props.label}</h4>
 		</animated.div>
 	);

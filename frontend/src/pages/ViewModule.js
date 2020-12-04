@@ -174,11 +174,11 @@ class ModuleOverview extends Component {
 					<div className="fb fb-row fb-sb fb-wrap">
 						<div className="fb fb-col fb-center px-5">
 							<Spring from={{ marginTop: -20000 }} to={{ marginTop: 0 }}>
-								{(props) => <ProfileImage src="/img/1902619.jpg" style={props} />}
+								{(props) => <ProfileImage src={`/img/${this.context.state.user_id}.jpg`} style={props} />}
 							</Spring>
 							<div className="fb fb-col fb-center mt-2">
 								<label>
-									Welcome back, <strong>Max</strong>
+									Welcome back, <strong>{this.context.state.name}</strong>
 								</label>
 								<label>What would you like to do today?</label>
 							</div>
@@ -283,6 +283,8 @@ class ModuleFeedback extends Component {
 		const feedbackUrl = `${this.context.apiUrl}/feedback/get?component_id=${this.props.state.selectedAssessment}`;
 		const marksUrl = `${this.context.apiUrl}/marks/get?component_id=${this.props.state.selectedAssessment}&user_id=${this.context.state.user_id}`;
 
+		console.log(marksUrl);
+
 		axios.get(feedbackUrl).then((res) => {
 			this.setState({
 				feedback: res.data,
@@ -301,7 +303,7 @@ class ModuleFeedback extends Component {
 			<Panel>
 				<div className="fb fb-col p-5" style={{ minWidth: "700px", minHeight: "700px" }}>
 					<h3 className="text-center">
-						<label>Feedback for ICT2X01 Project</label>
+						<label>My Feedback</label>
 					</h3>
 					<div className="fb fb-col fcc">
 						<label>
@@ -447,14 +449,6 @@ class Ladder extends Component {
 								})}
 							</tbody>
 						</table>
-						<div className="ml-5 fb fb-col">
-							<span className="text-success material-icons" style={{ fontSize: "100px" }}>
-								arrow_upward
-							</span>
-							<label className="text-success" style={{ fontSize: "75px" }}>
-								+5
-							</label>
-						</div>
 					</div>
 				</div>
 				<div className="fb fb-row fb-sb mt-3">

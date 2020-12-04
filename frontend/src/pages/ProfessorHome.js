@@ -1,9 +1,11 @@
 import React, { Component } from "react";
 import { MyContext } from "../context/myContext";
 import { Treebeard } from "react-treebeard";
-import ProfessorAssessment from "./ProfessorAssessment";
 import axios from "axios";
+import ProfessorModule from "./ProfessorModule";
+import ProfessorAssessment from "./ProfessorAssessment";
 import ProfessorSubcomponent from "./ProfessorSubcomponent";
+import { Redirect } from "react-router-dom";
 
 export default class ProfessorHome extends Component {
 	static contextType = MyContext;
@@ -26,7 +28,7 @@ export default class ProfessorHome extends Component {
 	}
 
 	refreshData = () => {
-		axios.get(`${this.context.apiUrl}/user/modules/get?email=A88888%40singaporetech.edu.sg`).then((res) => {
+		axios.get(`${this.context.apiUrl}/user/modules/get?email=${this.context.state.email}`).then((res) => {
 			this.setState({
 				data: res.data,
 			});
@@ -69,27 +71,22 @@ export default class ProfessorHome extends Component {
 		const item = this.state.cursor;
 		var page;
 
+		if (this.context.state.email === "") {
+			return <Redirect to="/login" />;
+		}
+
 		if (!item) {
 			page = (
 				<div className="fb fb-col fcc" style={{ height: "100%" }}>
 					<label>
-						<h3>Select something</h3>
+						<h3>Select something from the left</h3>
 					</label>
 				</div>
 			);
 		} else if (item.type === "Assessment") {
 			page = <ProfessorAssessment item={item} refresh={this.refreshData} />;
 		} else if (item.type === "Module") {
-			page = (
-				<div className="fb fb-col fcc" style={{ height: "100%" }}>
-					<label>
-						<h3>
-							{item.name}: {item.module_name}
-						</h3>
-					</label>
-					<button className="btn btn-primary">Create assessment</button>
-				</div>
-			);
+			page = <ProfessorModule item={item} state={this.state} refresh={this.refreshData} />;
 		} else if (item.type === "Subcomponent") {
 			page = <ProfessorSubcomponent item={item} refresh={this.refreshData} />;
 		}

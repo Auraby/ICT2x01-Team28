@@ -57,7 +57,7 @@ class NavItems extends Component {
 
 class Navbar extends Component {
 	render() {
-		const navItems = [{ title: "Home", href: "/home" }];
+		const navItems = [{ title: "Home", href: "/studentHome" }];
 
 		const assessmentDropdown = [
 			{ title: "Add Assessment", href: "/add/assessment" },
